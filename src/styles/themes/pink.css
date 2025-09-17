@@ -1,0 +1,24 @@
+@layer base {
+  .pink {
+    --background: oklch(1 0 0);
+    --foreground: oklch(0.145 0 0);
+    --card: oklch(1 0 0);
+    --card-foreground: oklch(0.145 0 0);
+    --popover: oklch(1 0 0);
+    --popover-foreground: oklch(0.145 0 0);
+    --primary: oklch(71.5% 0.22 332.8);
+    --primary-foreground: oklch(100% 0 0);
+    --secondary: oklch(91.7% 0.008 258.3);
+    --secondary-foreground: oklch(22.4% 0.12 258.3);
+    --muted: oklch(0.97 0 0);
+    --muted-foreground: oklch(0.556 0 0);
+    --accent: oklch(0.97 0 0);
+    --accent-foreground: oklch(22.4% 0.12 258.3);
+    --destructive: oklch(62.8% 0.18 29.2);
+    --destructive-foreground: oklch(1 0 0);
+    --border: oklch(0.922 0 0);
+    --input: oklch(0.922 0 0);
+    --ring: oklch(82.6% 0.18 332.8);
+    --marker-color: oklch(82.6% 0.18 332.8);
+  }
+}

@@ -1,0 +1,24 @@
+@layer base {
+  .green {
+    --background: oklch(1 0 0);
+    --foreground: oklch(0.145 0 0);
+    --card: oklch(1 0 0);
+    --card-foreground: oklch(0.145 0 0);
+    --popover: oklch(1 0 0);
+    --popover-foreground: oklch(0.145 0 0);
+    --primary: oklch(54.12% 0.227 142.5);
+    --primary-foreground: oklch(97.64% 0.013 12.57);
+    --secondary: oklch(96.11% 0.004 274.09);
+    --secondary-foreground: oklch(25.88% 0.015 274.09);
+    --muted: oklch(0.97 0 0);
+    --muted-foreground: oklch(0.556 0 0);
+    --accent: oklch(0.97 0 0);
+    --accent-foreground: oklch(25.88% 0.015 274.09);
+    --destructive: oklch(67.54% 0.196 29.23);
+    --destructive-foreground: oklch(1 0 0);
+    --border: oklch(0.922 0 0);
+    --input: oklch(0.922 0 0);
+    --ring: oklch(54.12% 0.227 142.5);
+    --marker-color: oklch(92% 0.2 140);
+  }
+}

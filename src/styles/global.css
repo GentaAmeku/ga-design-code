@@ -1,0 +1,64 @@
+@import "tailwindcss";
+@import "./variables.css";
+@import "./themes/default.css";
+@import "./themes/blue.css";
+@import "./themes/green.css";
+@import "./themes/pink.css";
+@import "./tailwind-theme.css";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(80px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  @supports (animation-timeline: view()) {
+    .fade-in-once {
+      animation: fade-in-up ease-out both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 50%;
+      transition: none;
+    }
+  }
+}
+
+@layer utilities {
+  /*.marker-line {
+    background-image: linear-gradient(
+      transparent 85%,
+      var(--marker-color) 40%
+    );
+    color: inherit;
+    transition: background-image 0.3s ease;
+  }*/
+  .marker-line {
+    @apply relative;
+  }
+
+  .marker-line::after {
+    content: "";
+    @apply absolute left-0 bottom-0 w-full opacity-100 -z-1;
+    bottom: -0.1em;
+    height: 0.2em;
+    background-color: var(--marker-color);
+    transition: background-color 0.6s ease;
+  }
+}
