@@ -1,6 +1,6 @@
 {
-  "name": "ga-lab",
-  "version": "0.1.0",
+  "name": "ga-design-code",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
