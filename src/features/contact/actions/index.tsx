@@ -28,8 +28,13 @@ export async function submitContactForm(_: unknown, formData: FormData) {
 
   const { fullName, message, email } = submission.value;
 
+  const from = process.env.RESEND_DOMAIN
+    ? `${process.env.RESEND_FROM_NAME} <noreply@${process.env.RESEND_DOMAIN}>`
+    : "onboarding@resend.dev";
+
   const { error } = await resend.emails.send({
-    from: email,
+    from: from,
+    replyTo: email,
     to: ["genta.ameku.work@gmail.com"],
     subject: "Thank you for your inquiry.",
     react: <EmailTemplate fullName={fullName} message={message} />,

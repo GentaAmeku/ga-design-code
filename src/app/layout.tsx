@@ -7,7 +7,7 @@ import ThemeProvider from "@/stores/ThemeProvider";
 import "@/styles/global.css";
 
 export const metadata: Metadata = {
-  title: "G.A | Web Developer Portfolio",
+  title: "G.A Design & Code | Web Developer Portfolio",
   description:
     "GentaAmeku's Web Developer portfolio. This site features my skills and a personal story, including my favorite games that inspired my journey as a developer.",
 };
