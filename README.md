@@ -16,8 +16,8 @@
 
 - [Next.js](https://nextjs.org)
 - [TypeScript](https://www.typescriptlang.org)
-- [shadcn/ui](https://ui.shadcn.com/)
 - [Tailwind CSS](https://tailwindcss.com)
+- [shadcn/ui](https://ui.shadcn.com/)
 - [Conform](https://conform.guide/)
 - [Upstash Redis](https://upstash.com/redis)
 - [Resend](https://resend.com)
