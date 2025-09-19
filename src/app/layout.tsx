@@ -27,8 +27,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
             <Footer />
             <Toaster
               position="top-center"
-              richColors
               toastOptions={{ duration: 6000 }}
+              richColors
             />
           </main>
         </ThemeProvider>

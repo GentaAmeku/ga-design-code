@@ -41,14 +41,6 @@
 }
 
 @layer utilities {
-  /*.marker-line {
-    background-image: linear-gradient(
-      transparent 85%,
-      var(--marker-color) 40%
-    );
-    color: inherit;
-    transition: background-image 0.3s ease;
-  }*/
   .marker-line {
     @apply relative;
   }
