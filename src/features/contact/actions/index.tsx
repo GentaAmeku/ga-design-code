@@ -43,8 +43,8 @@ export async function submitContactForm(_: unknown, formData: FormData) {
   const { error: errorB } = await resend.emails.send({
     from: from,
     replyTo: email,
-    to: ["genta.ameku.work@gmail.com"],
-    subject: "Thank you for your inquiry.",
+    to: [`${process.env.RESEND_TO}`],
+    subject: "New Inquiry Received.",
     react: (
       <AdminEmailTemplate fullName={fullName} message={message} email={email} />
     ),
