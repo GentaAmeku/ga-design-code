@@ -7,7 +7,7 @@ const AboutSection = () => {
       <div className="flex flex-col gap-6 md:flex-row justify-between md:gap-12">
         <div className="shadow-lg rounded-xl overflow-hidden flex-1 fade-in-once relative aspect-square">
           <Image
-            src="/images/about.jpg"
+            src="/images/about.png"
             alt="about image"
             fill
             priority
@@ -30,6 +30,10 @@ const AboutSection = () => {
             <span className="marker-line">clean code</span> and{" "}
             <span className="marker-line">seamless user interfaces</span> that
             are both beautiful and functional.
+          </p>
+          <p className="leading-loose text-lg tracking-wide">
+            I am also a{" "}
+            <span className="marker-line">rhythm game enthusiast</span>.
           </p>
         </div>
       </div>
