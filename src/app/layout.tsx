@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
@@ -30,6 +31,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
               toastOptions={{ duration: 6000 }}
               richColors
             />
+            <Analytics />
           </main>
         </ThemeProvider>
       </body>
