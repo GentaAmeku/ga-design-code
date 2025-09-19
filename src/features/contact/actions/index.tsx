@@ -3,7 +3,8 @@
 import { parseWithZod } from "@conform-to/zod";
 import { headers } from "next/headers";
 import { Resend } from "resend";
-import EmailTemplate from "@/features/contact/components/EmailTemplate";
+import AdminEmailTemplate from "@/features/contact/components/AdminEmailTemplate";
+import CustomerEmailTemplate from "@/features/contact/components/CustomerEmailTemplate";
 import { contactSchema } from "@/features/contact/schema";
 import { ratelimit } from "@/lib/radis";
 
@@ -32,15 +33,24 @@ export async function submitContactForm(_: unknown, formData: FormData) {
     ? `${process.env.RESEND_FROM_NAME} <noreply@${process.env.RESEND_DOMAIN}>`
     : "onboarding@resend.dev";
 
-  const { error } = await resend.emails.send({
+  const { error: errorA } = await resend.emails.send({
+    from: from,
+    to: [email],
+    subject: "Thank you for your inquiry.",
+    react: <CustomerEmailTemplate fullName={fullName} message={message} />,
+  });
+
+  const { error: errorB } = await resend.emails.send({
     from: from,
     replyTo: email,
     to: ["genta.ameku.work@gmail.com"],
     subject: "Thank you for your inquiry.",
-    react: <EmailTemplate fullName={fullName} message={message} />,
+    react: (
+      <AdminEmailTemplate fullName={fullName} message={message} email={email} />
+    ),
   });
 
-  if (error) return { status: "error" as const };
+  if (errorA || errorB) return { status: "error" as const };
 
   return { status: "success" as const };
 }
