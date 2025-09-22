@@ -4,6 +4,7 @@ import AutoScroll from "embla-carousel-auto-scroll";
 import useEmblaCarousel from "embla-carousel-react";
 import Image from "next/image";
 import type { SlideItem } from "@/features/games/types";
+import { cn } from "@/lib/utils";
 
 type EmblaCarouselProps = {
   slides: SlideItem[];
@@ -43,7 +44,14 @@ export function EmblaCarousel({
                 sizes="(max-width: 768px) 265px, 240px"
                 loading="lazy"
                 alt="slide image"
-                className="w-full aspect-[3/2] object-cover shadow-lg rounded-xl transition-transform duration-300 hover:scale-110"
+                className={cn(
+                  "w-full aspect-[3/2] object-cover shadow-lg rounded-xl",
+                  "transition-transform duration-300",
+                  slide.youtubeId
+                    ? "hover:scale-110 cursor-pointer active:scale-110"
+                    : "",
+                  // slide.youtubeId ? "hover:scale-110" : "",
+                )}
               />
             </div>
           ))}

@@ -7,13 +7,11 @@ import ClaudeIcon from "@/components/Icons/ClaudeIcon";
 import ElectronIcon from "@/components/Icons/ElectronIcon";
 import FigmaIcon from "@/components/Icons/FigmaIcon";
 import GeminiIcon from "@/components/Icons/GeminiIcon";
-import GitIcon from "@/components/Icons/GitIcon";
 import IonicIcon from "@/components/Icons/IonicIcon";
 import JestIcon from "@/components/Icons/JestIcon";
 import MCPIcon from "@/components/Icons/MCPIcon";
 import NextjsIcon from "@/components/Icons/NextjsIcon";
 import NoteBookLMIcon from "@/components/Icons/NoteBookLMIcon";
-import PnpmIcon from "@/components/Icons/PnpmIcon";
 import RaycastIcon from "@/components/Icons/RaycastIcon";
 import ReactIcon from "@/components/Icons/ReactIcon";
 import SketchIcon from "@/components/Icons/SketchIcon";
@@ -42,17 +40,15 @@ export const DESIGN_TOOLS: SkillItem[] = [
 ];
 
 export const TOOLS: SkillItem[] = [
-  { icon: GitIcon, title: "Git" },
-  { icon: PnpmIcon, title: "pnpm" },
-  { icon: BunIcon, title: "Bun" },
-  { icon: WarpIcon, title: "Warp" },
+  { icon: RaycastIcon, title: "Raycast", rank: "gold" },
+  { icon: ArcIcon, title: "Arc", rank: "gold" },
   { icon: ZedIcon, title: "Zed" },
-  { icon: ArcIcon, title: "Arc" },
-  { icon: RaycastIcon, title: "Raycast" },
+  { icon: WarpIcon, title: "Warp" },
+  { icon: BunIcon, title: "Bun" },
 ];
 
 export const AI: SkillItem[] = [
-  { icon: ClaudeIcon, title: "Claude" },
+  { icon: ClaudeIcon, title: "Claude", rank: "gold" },
   { icon: GeminiIcon, title: "Google Gemini" },
   { icon: NoteBookLMIcon, title: "NotebookLM" },
   { icon: MCPIcon, title: "MCP" },

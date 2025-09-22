@@ -1,5 +1,5 @@
 export type SlideItem = {
   src: string;
   title: string;
-  link?: string;
+  youtubeId?: string;
 };

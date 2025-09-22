@@ -8,14 +8,15 @@ export const FIRST_SLIDES: SlideItem[] = [
   {
     title: "DJMAX RESPECT V",
     src: "/images/carousel/djmax-respect.png",
+    youtubeId: "YUTTpHcvelI",
   },
   {
     title: "Beatmania IIDX",
     src: "/images/carousel/beatmania.png",
   },
   {
-    title: "Step Mania",
-    src: "/images/carousel/stepmania.png",
+    title: "EZ",
+    src: "/images/carousel/ez2on.png",
   },
   {
     title: "Overwatch 2",

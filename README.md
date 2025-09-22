@@ -18,6 +18,7 @@
 - [TypeScript](https://www.typescriptlang.org)
 - [Tailwind CSS](https://tailwindcss.com)
 - [shadcn/ui](https://ui.shadcn.com/)
+- [Motion](https://motion.dev/)
 - [Conform](https://conform.guide/)
 - [Upstash Redis](https://upstash.com/redis)
 - [Resend](https://resend.com)

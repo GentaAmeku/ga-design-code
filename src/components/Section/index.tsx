@@ -9,7 +9,7 @@ const Section = ({ className, children }: SectionProps) => {
   return (
     <section
       className={cn(
-        "min-h-dvh flex items-center justify-center w-full",
+        "min-h-screen flex items-center justify-center w-full will-change-transform",
         className,
       )}
     >

@@ -10,9 +10,12 @@ import "@/styles/global.css";
 
 export const metadata: Metadata = commonMetadata;
 
-type RootLayoutProps = Readonly<{ children: React.ReactNode }>;
+type RootLayoutProps = Readonly<{
+  children: React.ReactNode;
+  modal: React.ReactNode;
+}>;
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default function RootLayout({ children, modal }: RootLayoutProps) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
@@ -26,6 +29,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
               toastOptions={{ duration: 6000 }}
               richColors
             />
+            {modal}
             <Analytics />
           </main>
         </ThemeProvider>

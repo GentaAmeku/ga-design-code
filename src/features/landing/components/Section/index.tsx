@@ -2,7 +2,7 @@ import Section from "@/components/Section";
 
 const LandingSection = () => {
   return (
-    <Section className="-mt-[var(--custom-header-height)] will-change-transform">
+    <Section className="-mt-[var(--custom-header-height)]">
       <div className="text-center">
         <h1 className="text-4xl font-bold text-center tracking-wide md:text-5xl">
           G.A Design & Code
