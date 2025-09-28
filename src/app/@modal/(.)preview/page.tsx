@@ -1,26 +1,25 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { YouTubeEmbed } from "@next/third-parties/google";
+import { Dialog, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { getGameDetail } from "@/features/games/actions/getGameDetail";
+import PreviewDialogContent from "@/features/games/components/PreviewDialogContent";
+import PreviewDialogDescription from "@/features/games/components/PreviewDialogDescription";
 
-// FIXME
-const PreviewModalPage = () => {
+type PreviewModalPageProps = {
+  searchParams: Promise<{ youtubeId: string }>;
+};
+
+const PreviewModalPage = async ({ searchParams }: PreviewModalPageProps) => {
+  const { youtubeId } = await searchParams;
+  const game = await getGameDetail(youtubeId);
   return (
-    <Dialog open>
-      <DialogTrigger>Open</DialogTrigger>
-      <DialogContent>
+    <Dialog defaultOpen>
+      <PreviewDialogContent>
         <DialogHeader>
-          <DialogTitle>Are you absolutely sure?</DialogTitle>
-          <DialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
-          </DialogDescription>
+          <DialogTitle>{game.title}</DialogTitle>
         </DialogHeader>
-      </DialogContent>
+        <YouTubeEmbed videoid={game.youtubeId} />
+        <PreviewDialogDescription description={game.description} />
+      </PreviewDialogContent>
     </Dialog>
   );
 };
