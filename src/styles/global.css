@@ -18,12 +18,6 @@
   }
 }
 
-@layer components {
-  .prose {
-
-  }
-}
-
 @layer utilities {
   .marker-line {
     @apply relative;
