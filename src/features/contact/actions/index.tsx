@@ -6,7 +6,7 @@ import { Resend } from "resend";
 import AdminEmailTemplate from "@/features/contact/components/AdminEmailTemplate";
 import CustomerEmailTemplate from "@/features/contact/components/CustomerEmailTemplate";
 import { contactSchema } from "@/features/contact/schema";
-import { ratelimit } from "@/lib/radis";
+import { globalRatelimit, ipRatelimit, isBlockedIP } from "@/lib/radis";
 
 const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY);
 
@@ -21,9 +21,21 @@ export async function submitContactForm(_: unknown, formData: FormData) {
 
   const headersList = await headers();
   const ip = headersList.get("x-forwarded-for") ?? "unknown";
-  const { success } = await ratelimit.limit(ip);
 
-  if (!success) {
+  // 1. ブロックリストチェック（オプション）
+  if (isBlockedIP(ip)) {
+    return { status: "error" as const };
+  }
+
+  // 2. グローバル制限チェック
+  const globalCheck = await globalRatelimit.limit("global");
+  if (!globalCheck.success) {
+    return { status: "error" as const };
+  }
+
+  // 3. IP制限チェック
+  const ipCheck = await ipRatelimit.limit(ip);
+  if (!ipCheck.success) {
     return { status: "error" as const };
   }
 
