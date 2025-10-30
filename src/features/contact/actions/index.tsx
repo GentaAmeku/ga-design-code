@@ -19,6 +19,11 @@ export async function submitContactForm(_: unknown, formData: FormData) {
     return submission.reply();
   }
 
+  if (process.env.EMAIL_SERVICE_ENABLED === "false") {
+    console.log("Email service is disabled");
+    return { status: "error" as const };
+  }
+
   const headersList = await headers();
   const ip = headersList.get("x-forwarded-for") ?? "unknown";
 

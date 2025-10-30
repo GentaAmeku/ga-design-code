@@ -22,15 +22,17 @@ export const globalRatelimit = new Ratelimit({
   prefix: "@upstash/ratelimit/global",
 });
 
-const BLOCKED_IPS = [
+const STATIC_BLOCKED_IPS = [
   "5.254.26.60",
   "172.111.204.5",
   "110.167.122.2",
   "8.219.129.31",
   "70.166.167.55",
+  "54.90.66.42",
 ];
 
-// 3. 特定IPをブロック
 export function isBlockedIP(ip: string): boolean {
-  return BLOCKED_IPS.includes(ip);
+  const envIPs = process.env.BLOCKED_IPS?.split(",").map((s) => s.trim()) || [];
+  const allIPs = [...STATIC_BLOCKED_IPS, ...envIPs];
+  return allIPs.includes(ip);
 }
