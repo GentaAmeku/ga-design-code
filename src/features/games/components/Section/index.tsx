@@ -1,10 +1,12 @@
+"use cache";
+
 import Section from "@/components/Section";
 
 import { EmblaCarousel } from "@/features/games/components/EmblaCarousel";
 import { FIRST_SLIDES, SECOND_SLIDES } from "@/features/games/constants";
 import { FadeIn, FadeInWithStagger } from "@/lib/motion";
 
-const GamesSection = () => {
+const GamesSection = async () => {
   return (
     <Section>
       <FadeInWithStagger>
