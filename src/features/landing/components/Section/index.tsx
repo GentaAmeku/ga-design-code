@@ -1,6 +1,8 @@
+"use cache";
+
 import Section from "@/components/Section";
 
-const LandingSection = () => {
+const LandingSection = async () => {
   return (
     <Section className="-mt-[var(--custom-header-height)]">
       <div className="text-center">

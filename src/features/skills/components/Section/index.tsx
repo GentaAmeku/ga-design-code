@@ -1,3 +1,5 @@
+"use cache";
+
 import Section from "@/components/Section";
 import {
   AI,
@@ -8,7 +10,7 @@ import {
 import { FadeIn, FadeInWithStagger } from "@/lib/motion";
 import SkillSection from "../SkillSection";
 
-const SkillsSection = () => {
+const SkillsSection = async () => {
   return (
     <Section>
       <FadeInWithStagger>
