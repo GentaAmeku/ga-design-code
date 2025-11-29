@@ -1,5 +1,3 @@
-"use cache";
-
 import Image from "next/image";
 import Section from "@/components/Section";
 import { FadeIn, FadeInWithStagger } from "@/lib/motion";
