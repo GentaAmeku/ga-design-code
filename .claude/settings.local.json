@@ -12,5 +12,8 @@
         ]
       }
     ]
+  },
+  "permissions": {
+    "allow": ["Bash(pnpm build:*)"]
   }
 }
