@@ -5,7 +5,7 @@ type PreviewDialogDescriptionProps = {
   description: string;
 };
 
-const PreviewDialogDescription = async ({
+const PreviewDialogDescription = ({
   description,
 }: PreviewDialogDescriptionProps) => {
   return (
