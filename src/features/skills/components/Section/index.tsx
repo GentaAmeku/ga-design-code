@@ -1,4 +1,5 @@
 import Section from "@/components/Section";
+import SectionHeading from "@/components/SectionHeading";
 import {
   AI,
   DESIGN_TOOLS,
@@ -14,12 +15,10 @@ const SkillsSection = async () => {
       <FadeInWithStagger>
         <div className="flex flex-col">
           <FadeIn>
-            <h2 className="text-3xl font-bold text-center md:text-4xl leading-11">
-              Skills
-            </h2>
+            <SectionHeading title="Skills" />
           </FadeIn>
           <FadeIn>
-            <div className="flex flex-col w-full gap-16 mt-15">
+            <div className="flex flex-col w-full gap-16 mt-16">
               <SkillSection title="Frontend" list={FRONT_END_SKILLS} />
               <SkillSection title="Design" list={DESIGN_TOOLS} />
               <SkillSection title="Tools" list={TOOLS} />

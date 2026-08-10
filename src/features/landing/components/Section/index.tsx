@@ -7,7 +7,7 @@ const LandingSection = async () => {
         <h1 className="text-4xl font-bold text-center tracking-wide md:text-5xl">
           G.A Design & Code
         </h1>
-        <p className="text-muted-foreground mt-4 text-md tracking-wide md:text-lg">
+        <p className="text-muted-foreground mt-4 text-base tracking-wide md:text-lg">
           <span className="marker-line">
             Crafting delightful digital experiences.
           </span>
