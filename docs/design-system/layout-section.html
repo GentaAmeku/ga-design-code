@@ -1,0 +1,159 @@
+<!-- @dsCard group="Layout" -->
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>セクションの骨格 — G.A Design &amp; Code DS</title>
+<style>
+/* =============================================================================
+   セクションの骨格 — このサイトで最も強い制約
+   正: docs/adr/0002-one-section-per-screen.md
+   ---------------------------------------------------------------------------
+   トップページは「1スクロールに1セクション」。画面からはみ出させない。
+   置ける情報量は画面の高さで決まる。足したくなったら、まず何を削るかを決める。
+   ============================================================================= */
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --border: oklch(0.922 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --marker-color: oklch(97% 0.22 95);
+  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --radius: 0.625rem;
+  --measure: 48rem;   /* max-w-3xl — ページ幅はこれ1本 */
+  --header-h: 4rem;   /* --custom-header-height */
+}
+
+html, body { margin: 0; background: #f4f4f5; }
+.ds-harness { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 14px;
+  padding: 10px 14px; background: #18181b; color: #e4e4e7; font-family: var(--font-mono); font-size: 12px; }
+.ds-harness .ds-title { font-weight: 700; color: #fff; letter-spacing: .04em; }
+.ds-harness .ds-sub { color: #a1a1aa; }
+.ds-harness .ds-note { margin-left: auto; color: #71717a; font-size: 11px; }
+.ds-stage { background: var(--background); color: var(--foreground);
+  font-family: var(--font-sans); padding: 2.5rem 1.5rem; }
+.ds-wrap { max-width: var(--measure); margin: 0 auto; }
+.ds-label { font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground);
+  letter-spacing: .08em; text-transform: uppercase; margin: 0 0 1rem; }
+
+/* 画面を模した枠。中の要素は実物の縮小配置 */
+.ds-screens { display: flex; gap: 2rem; flex-wrap: wrap; }
+.ds-screen { position: relative; border: 1px solid var(--border); border-radius: var(--radius);
+  overflow: hidden; background: var(--background); }
+.ds-screen.is-desktop { width: 320px; aspect-ratio: 1280 / 800; }
+.ds-screen.is-mobile  { width: 150px; aspect-ratio: 375 / 667; }
+.ds-screen-cap { font-family: var(--font-mono); font-size: 10px; color: var(--muted-foreground); margin-top: .4rem; }
+
+/* 枠の中身: 上のヘッダー帯 + 中央寄せのセクション */
+.ds-header-band { height: 8%; border-bottom: 1px dashed var(--border); }
+.ds-section { height: 92%; display: flex; align-items: center; justify-content: center; padding: 0 8%; }
+.ds-section-inner { width: 100%; text-align: center; }
+.ds-fake-h { height: 10px; background: var(--foreground); border-radius: 2px; margin: 0 auto; width: 70%; }
+.ds-fake-lead { height: 5px; background: var(--muted-foreground); border-radius: 2px; margin: 6px auto 0; width: 45%; }
+.ds-fake-body { margin-top: 22px; display: flex; flex-direction: column; gap: 8px; }
+.ds-fake-line { height: 20px; background: oklch(0.97 0 0); border-radius: 3px; }
+
+/* はみ出しの図 */
+.ds-screen.is-bad .ds-section { height: auto; min-height: 92%; }
+.ds-screen.is-bad { outline: 2px solid var(--destructive); outline-offset: 2px; }
+.ds-overflow-tag { position: absolute; right: 4px; bottom: 4px; background: var(--destructive);
+  color: #fff; font-family: var(--font-mono); font-size: 9px; padding: 2px 5px; border-radius: 3px; }
+
+.ds-rules { margin-top: 2.5rem; }
+.ds-rule { border-top: 1px solid var(--border); padding: 1rem 0; }
+.ds-rule h3 { font-size: 1rem; margin: 0 0 .4rem; font-weight: 700; }
+.ds-rule p { font-size: 1rem; line-height: 1.9; margin: 0; color: var(--foreground); }
+.ds-rule code { font-family: var(--font-mono); font-size: .85em; }
+.ds-warn { color: var(--destructive); }
+.marker-line { position: relative; }
+.marker-line::after { content: ""; position: absolute; left: 0; bottom: -0.1em; width: 100%;
+  height: 0.2em; background-color: var(--marker-color); z-index: -1; }
+</style>
+</head>
+<body>
+<div class="ds-harness">
+  <span class="ds-title">セクションの骨格</span>
+  <span class="ds-sub">1スクロール = 1セクション / max-w-3xl / 中央寄せ</span>
+  <span class="ds-note">最も強い制約。破ると別のサイトになる</span>
+</div>
+
+<div class="ds-stage">
+<div class="ds-wrap">
+
+  <p class="ds-label">正しい形</p>
+  <div class="ds-screens">
+    <div>
+      <div class="ds-screen is-desktop">
+        <div class="ds-header-band"></div>
+        <div class="ds-section">
+          <div class="ds-section-inner">
+            <div class="ds-fake-h"></div>
+            <div class="ds-fake-lead"></div>
+            <div class="ds-fake-body"><div class="ds-fake-line"></div><div class="ds-fake-line"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="ds-screen-cap">1280 × 800 — セクションは画面ちょうど</div>
+    </div>
+    <div>
+      <div class="ds-screen is-mobile">
+        <div class="ds-header-band"></div>
+        <div class="ds-section">
+          <div class="ds-section-inner">
+            <div class="ds-fake-h"></div>
+            <div class="ds-fake-lead"></div>
+            <div class="ds-fake-body"><div class="ds-fake-line"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="ds-screen-cap">375 × 667 — ここが最も厳しい</div>
+    </div>
+    <div>
+      <div class="ds-screen is-mobile is-bad">
+        <div class="ds-header-band"></div>
+        <div class="ds-section">
+          <div class="ds-section-inner">
+            <div class="ds-fake-h"></div>
+            <div class="ds-fake-lead"></div>
+            <div class="ds-fake-body">
+              <div class="ds-fake-line"></div><div class="ds-fake-line"></div>
+              <div class="ds-fake-line"></div><div class="ds-fake-line"></div>
+            </div>
+          </div>
+        </div>
+        <span class="ds-overflow-tag">はみ出し NG</span>
+      </div>
+      <div class="ds-screen-cap">中身が多いと黙って伸びる</div>
+    </div>
+  </div>
+
+  <div class="ds-rules">
+    <div class="ds-rule">
+      <h3>幅は1本きり</h3>
+      <p><code>max-w-3xl</code>(48rem)を中央に寄せ、左右に <code>px-4</code> を敷く。段組みは持たない。幅を増やしたくなったら、それは中身を削る合図。</p>
+    </div>
+    <div class="ds-rule">
+      <h3>高さは画面ちょうど</h3>
+      <p>セクションは <code>min-h-screen flex items-center justify-center</code>。縦にも横にも中央へ寄せる。<span class="marker-line">置ける情報量は画面の高さで決まる</span>。</p>
+    </div>
+    <div class="ds-rule">
+      <h3 class="ds-warn">はみ出しは不具合</h3>
+      <p>実装は <code>min-h-screen</code>(最小値)なので、中身が多ければ黙って伸びる。<span class="ds-warn">目視では気づけない</span>。セクションを足したり中身を増やしたら、375×667 で高さを測る。手順は README にある。</p>
+    </div>
+    <div class="ds-rule">
+      <h3>並び</h3>
+      <p>見出し → リード(<code>mt-4</code>)→ 本体(<code>mt-16</code>、md 以上は <code>mt-20</code>)。この順を崩さない。リードは省いてよい。</p>
+    </div>
+    <div class="ds-rule">
+      <h3>例外は about だけ</h3>
+      <p>about は画像と文章の2カラムで、見出しも左寄せ。ここだけ骨格から外れている。<strong>新しい例外を増やさない。</strong></p>
+    </div>
+  </div>
+
+</div>
+</div>
+</body>
+</html>

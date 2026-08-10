@@ -1,0 +1,123 @@
+<!-- @dsCard group="Components" -->
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ボタン — G.A Design &amp; Code DS</title>
+<style>
+/* =============================================================================
+   ボタン
+   実装: src/components/ui/button.tsx(shadcn/ui・new-york)
+   ---------------------------------------------------------------------------
+   shadcn は 6 variant × 4 size を持つが、このサイトが使うのは 3 通りだけ。
+   使っていない組み合わせはここに載せない(選択肢を増やさないため)。
+   ダークテーマは持たないので dark: クラスは削ってある(docs/adr/0003)。
+   ============================================================================= */
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --border: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --radius: 0.625rem;
+  --measure: 48rem;
+}
+
+html, body { margin: 0; background: #f4f4f5; }
+.ds-harness { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 14px;
+  padding: 10px 14px; background: #18181b; color: #e4e4e7; font-family: var(--font-mono); font-size: 12px; }
+.ds-harness .ds-title { font-weight: 700; color: #fff; letter-spacing: .04em; }
+.ds-harness .ds-sub { color: #a1a1aa; }
+.ds-harness .ds-note { margin-left: auto; color: #71717a; font-size: 11px; }
+.ds-stage { background: var(--background); color: var(--foreground);
+  font-family: var(--font-sans); padding: 3rem 1.5rem; }
+.ds-wrap { max-width: var(--measure); margin: 0 auto; }
+.ds-case { border-top: 1px solid var(--border); padding: 1.75rem 0; }
+.ds-case-meta { font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground); margin-bottom: 1rem; }
+.ds-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+
+/* --- ここが実物 --- */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  white-space: nowrap; border-radius: calc(var(--radius) - 2px); font-size: .875rem; font-weight: 500;
+  border: 0; cursor: pointer; transition: all .15s ease; font-family: inherit; }
+.btn:disabled { pointer-events: none; opacity: .5; }
+.btn:focus-visible { outline: none; box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent); }
+
+.btn-default { background: var(--primary); color: var(--primary-foreground);
+  box-shadow: 0 1px 3px 0px hsl(0 0% 0% / .05); height: 2.25rem; padding: .5rem 1rem; }
+.btn-default:hover { background: color-mix(in oklab, var(--primary) 90%, transparent); }
+
+.btn-outline { background: var(--background); border: 1px solid var(--border);
+  box-shadow: 0 1px 3px 0px hsl(0 0% 0% / .05); height: 2rem; padding: 0 .75rem; font-size: .875rem;
+  border-radius: calc(var(--radius) - 2px); color: var(--foreground); }
+.btn-outline:hover { background: var(--accent); color: var(--accent-foreground); }
+
+.btn-ghost-icon { background: transparent; width: 2.75rem; height: 2.75rem; padding: 0;
+  color: var(--foreground); }
+.btn-ghost-icon:hover { background: var(--accent); color: var(--accent-foreground); }
+
+.btn-block { width: 100%; }
+
+.ds-code { background: oklch(0.97 0 0); border-radius: 6px; padding: .6rem .9rem;
+  font-family: var(--font-mono); font-size: 12px; margin-top: 1rem; }
+.ds-out { margin-top: 2.5rem; border-left: 3px solid var(--border); padding-left: 1rem; }
+.ds-out p { font-size: 1rem; line-height: 1.9; margin: 0; color: var(--muted-foreground); }
+</style>
+</head>
+<body>
+<div class="ds-harness">
+  <span class="ds-title">ボタン</span>
+  <span class="ds-sub">使うのは3通りだけ</span>
+  <span class="ds-note">shadcn/ui new-york / dark: は削除済み</span>
+</div>
+
+<div class="ds-stage">
+<div class="ds-wrap">
+
+  <div class="ds-case">
+    <div class="ds-case-meta">default — フォームの送信。ページに1つだけ置く強い操作</div>
+    <button class="btn btn-default btn-block" type="button">Submit</button>
+    <div class="ds-code">&lt;Button type="submit" className="mt-10 w-full cursor-pointer"&gt;</div>
+  </div>
+
+  <div class="ds-case">
+    <div class="ds-case-meta">ghost + icon — ヘッダーのアイコン操作(テーマ切替・GitHub リンク)</div>
+    <div class="ds-row">
+      <button class="btn btn-ghost-icon" type="button" aria-label="テーマを変える">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.37 2.63 14 7l-1.59-1.59a2 2 0 0 0-2.82 0L8 7l9 9 1.59-1.59a2 2 0 0 0 0-2.82L17 10l4.37-4.37a2.12 2.12 0 1 0-3-3Z"/><path d="M9 8c-2 3-4 3.5-7 4l8 10c2-1 6-5 6-7"/><path d="M14.5 17.5 4.5 15"/></svg>
+      </button>
+      <button class="btn btn-ghost-icon" type="button" aria-label="GitHub">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2 0-.4-.5-1.6.2-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.7 1.6.2 2.8.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg>
+      </button>
+    </div>
+    <div class="ds-code">&lt;Button variant="ghost" size="icon"&gt;{icon}&lt;/Button&gt;</div>
+  </div>
+
+  <div class="ds-case">
+    <div class="ds-case-meta">outline + sm — テーマ切替メニューの中の色選択</div>
+    <div class="ds-row">
+      <button class="btn btn-outline" type="button">Default</button>
+      <button class="btn btn-outline" type="button">Blue</button>
+      <button class="btn btn-outline" type="button">Green</button>
+    </div>
+    <div class="ds-code">&lt;Button variant="outline" size="sm"&gt;</div>
+  </div>
+
+  <div class="ds-out">
+    <p>
+      使っていないのは destructive / secondary / link と size=lg。
+      新しく必要になったら、まず既存の3通りで足りないかを疑う。
+    </p>
+  </div>
+
+</div>
+</div>
+</body>
+</html>
