@@ -1,0 +1,202 @@
+<!-- @dsCard group="Foundation" -->
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>トークン — G.A Design &amp; Code DS</title>
+<style>
+/* =============================================================================
+   G.A Design & Code — デザイントークン
+   転記元: src/styles/themes/default.css(色)/ src/styles/variables.css(基準)
+   正はコード。ここが食い違ったらコードが勝つ(docs/adr/0001)。
+   ---------------------------------------------------------------------------
+   このサイトの性格: 白が地。情報量よりシンプルさと綺麗さを優先する。
+   色で語らず、余白と文字の大小で語る。強調の手段はマーカーライン1つだけ。
+   ============================================================================= */
+:root {
+  /* --- 色(default テーマ。blue/green/pink は色替えであって別デザインではない)--- */
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --marker-color: oklch(97% 0.22 95); /* マーカーライン(強調の唯一の手段)*/
+  --custom-error-color: oklch(63.7% 0.237 25.331);
+  --custom-success-color: oklch(72.3% 0.219 149.579);
+
+  /* --- 基準 --- */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --radius: 0.625rem;
+  --spacing: 0.25rem;
+  --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
+  --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
+  --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 4px 6px -1px hsl(0 0% 0% / 0.1);
+
+  /* --- 文字は4種だけ。通しのスケールは持たない(使わない段を作らないため)--- */
+  --fs-display:     2.25rem;  /* 大見出し      text-4xl  */
+  --fs-display-md:  3rem;     /*   〃 md以上   text-5xl  */
+  --fs-heading:     1.875rem; /* セクション見出し text-3xl */
+  --fs-heading-md:  2.25rem;  /*   〃 md以上   text-4xl  */
+  --lh-heading:     2.75rem;  /*   〃 行の高さ  leading-11 */
+  --fs-lead:        1rem;     /* リード        text-base */
+  --fs-lead-md:     1.125rem; /*   〃 md以上   text-lg   */
+  --fs-body:        1.125rem; /* 本文          text-lg   */
+  --lh-body:        2;        /*   〃 行の高さ  leading-loose */
+  --tracking-wide:  0.025em;
+
+  /* --- 余白は用途で呼ぶ(数値では呼ばない)--- */
+  --sp-heading-to-lead:    1rem; /* 見出し → リード      mt-4  */
+  --sp-heading-to-body:    4rem; /* 見出し群 → 本体      mt-16 */
+  --sp-heading-to-body-md: 5rem; /*   〃 md以上          mt-20 */
+  --sp-group:              4rem; /* 塊と塊のあいだ        gap-16 */
+  --sp-stack:              2rem; /* 積み重ねの間隔        space-y-8 */
+
+  /* --- 幅 --- */
+  --measure: 48rem; /* 本文の最大幅 max-w-3xl。ページ幅はこれ1本しかない */
+}
+
+/* ---- プレビュー用の枠(.ds- 名前空間・本体には干渉しない)---- */
+html, body { margin: 0; background: #f4f4f5; }
+.ds-harness { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 14px;
+  padding: 10px 14px; background: #18181b; color: #e4e4e7; font-family: var(--font-mono); font-size: 12px; }
+.ds-harness .ds-title { font-weight: 700; color: #fff; letter-spacing: .04em; }
+.ds-harness .ds-sub { color: #a1a1aa; }
+.ds-harness .ds-note { margin-left: auto; color: #71717a; font-size: 11px; }
+.ds-stage { background: var(--background); color: var(--foreground);
+  font-family: var(--font-sans); padding: 3rem 1.5rem; }
+.ds-wrap { max-width: var(--measure); margin: 0 auto; }
+.ds-group { margin-bottom: var(--sp-group); }
+.ds-label { font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground);
+  letter-spacing: .08em; text-transform: uppercase; margin: 0 0 1rem; }
+
+/* 色見本 */
+.ds-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem; }
+.ds-sw-chip { height: 56px; border-radius: var(--radius); border: 1px solid var(--border); }
+.ds-sw-name { font-family: var(--font-mono); font-size: 11px; margin-top: .4rem; }
+.ds-sw-val { font-family: var(--font-mono); font-size: 10px; color: var(--muted-foreground); }
+
+/* 文字見本 */
+.ds-type-row { border-top: 1px solid var(--border); padding: 1.25rem 0; }
+.ds-type-meta { font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground); margin-bottom: .5rem; }
+.ds-display { font-size: var(--fs-display); font-weight: 700; letter-spacing: var(--tracking-wide); margin: 0; }
+.ds-heading { font-size: var(--fs-heading); font-weight: 700; line-height: var(--lh-heading); margin: 0; }
+.ds-lead { font-size: var(--fs-lead); letter-spacing: var(--tracking-wide); color: var(--muted-foreground); margin: 0; }
+.ds-body { font-size: var(--fs-body); line-height: var(--lh-body); letter-spacing: var(--tracking-wide); margin: 0; }
+@media (min-width: 768px) {
+  .ds-display { font-size: var(--fs-display-md); }
+  .ds-heading { font-size: var(--fs-heading-md); }
+  .ds-lead    { font-size: var(--fs-lead-md); }
+}
+
+/* 余白見本 */
+.ds-space-row { display: flex; align-items: center; gap: 1rem; margin-bottom: .75rem; }
+.ds-space-bar { background: var(--marker-color); height: 14px; border-radius: 2px; }
+.ds-space-name { font-family: var(--font-mono); font-size: 11px; white-space: nowrap; }
+.ds-space-val { font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground); }
+
+/* 角丸・影 */
+.ds-tiles { display: flex; flex-wrap: wrap; gap: 1.25rem; }
+.ds-tile { width: 110px; height: 72px; background: var(--card); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono); font-size: 10px; color: var(--muted-foreground); }
+
+/* マーカーライン(強調の唯一の手段)*/
+.marker-line { position: relative; }
+.marker-line::after { content: ""; position: absolute; left: 0; bottom: -0.1em; width: 100%;
+  height: 0.2em; background-color: var(--marker-color); z-index: -1; }
+</style>
+</head>
+<body>
+<div class="ds-harness">
+  <span class="ds-title">トークン</span>
+  <span class="ds-sub">色 / 文字4種 / 余白 / 角丸・影</span>
+  <span class="ds-note">正は src/styles/。default テーマのみ掲載</span>
+</div>
+
+<div class="ds-stage">
+<div class="ds-wrap">
+
+  <div class="ds-group">
+    <p class="ds-label">色</p>
+    <div class="ds-swatches">
+      <div><div class="ds-sw-chip" style="background:var(--background)"></div><div class="ds-sw-name">background</div><div class="ds-sw-val">oklch(1 0 0)</div></div>
+      <div><div class="ds-sw-chip" style="background:var(--foreground)"></div><div class="ds-sw-name">foreground</div><div class="ds-sw-val">oklch(.145 0 0)</div></div>
+      <div><div class="ds-sw-chip" style="background:var(--primary)"></div><div class="ds-sw-name">primary</div><div class="ds-sw-val">oklch(.205 0 0)</div></div>
+      <div><div class="ds-sw-chip" style="background:var(--secondary)"></div><div class="ds-sw-name">secondary</div><div class="ds-sw-val">oklch(.97 0 0)</div></div>
+      <div><div class="ds-sw-chip" style="background:var(--muted-foreground)"></div><div class="ds-sw-name">muted-foreground</div><div class="ds-sw-val">oklch(.556 0 0)</div></div>
+      <div><div class="ds-sw-chip" style="background:var(--border)"></div><div class="ds-sw-name">border</div><div class="ds-sw-val">oklch(.922 0 0)</div></div>
+      <div><div class="ds-sw-chip" style="background:var(--destructive)"></div><div class="ds-sw-name">destructive</div><div class="ds-sw-val">oklch(.577 .245 27.3)</div></div>
+      <div><div class="ds-sw-chip" style="background:var(--marker-color)"></div><div class="ds-sw-name">marker-color</div><div class="ds-sw-val">oklch(97% .22 95)</div></div>
+    </div>
+    <p class="ds-body" style="margin-top:1.5rem">
+      地は白。文字は黒に近いグレー。<span class="marker-line">色で意味を語らない</span>ので、彩度のある色は
+      マーカーラインと状態表示(エラー・成功)にしか出てこない。
+    </p>
+  </div>
+
+  <div class="ds-group">
+    <p class="ds-label">文字 — 4種だけ</p>
+    <div class="ds-type-row">
+      <div class="ds-type-meta">大見出し / display — text-4xl md:text-5xl / サイト名に一度だけ</div>
+      <p class="ds-display">G.A Design &amp; Code</p>
+    </div>
+    <div class="ds-type-row">
+      <div class="ds-type-meta">セクション見出し / heading — text-3xl md:text-4xl leading-11</div>
+      <p class="ds-heading">Let me introduce my favorite games.</p>
+    </div>
+    <div class="ds-type-row">
+      <div class="ds-type-meta">リード / lead — text-base md:text-lg・色は muted-foreground・見出しの直下に一文</div>
+      <p class="ds-lead">The game that influenced my life.</p>
+    </div>
+    <div class="ds-type-row">
+      <div class="ds-type-meta">本文 / body — text-lg leading-loose tracking-wide</div>
+      <p class="ds-body">I focus on building intuitive and high-performance digital experiences.</p>
+    </div>
+  </div>
+
+  <div class="ds-group">
+    <p class="ds-label">余白 — 用途で呼ぶ</p>
+    <div class="ds-space-row"><div class="ds-space-bar" style="width:1rem"></div><span class="ds-space-name">heading-to-lead</span><span class="ds-space-val">1rem / mt-4 — 見出しからリードへ</span></div>
+    <div class="ds-space-row"><div class="ds-space-bar" style="width:2rem"></div><span class="ds-space-name">stack</span><span class="ds-space-val">2rem / space-y-8 — 積み重ねの間隔</span></div>
+    <div class="ds-space-row"><div class="ds-space-bar" style="width:4rem"></div><span class="ds-space-name">heading-to-body</span><span class="ds-space-val">4rem / mt-16(md: 5rem)— 見出し群から本体へ</span></div>
+    <div class="ds-space-row"><div class="ds-space-bar" style="width:4rem"></div><span class="ds-space-name">group</span><span class="ds-space-val">4rem / gap-16 — 塊と塊のあいだ</span></div>
+  </div>
+
+  <div class="ds-group">
+    <p class="ds-label">角丸と影</p>
+    <div class="ds-tiles">
+      <div class="ds-tile" style="border-radius:calc(var(--radius) - 4px)">radius-sm</div>
+      <div class="ds-tile" style="border-radius:var(--radius)">radius-lg .625rem</div>
+      <div class="ds-tile" style="border-radius:var(--radius); box-shadow:var(--shadow-xs)">shadow-xs</div>
+      <div class="ds-tile" style="border-radius:var(--radius); box-shadow:var(--shadow-lg)">shadow-lg</div>
+    </div>
+    <p class="ds-lead" style="margin-top:1rem">影はほとんど使わない。使うのは画像カードの縁を立てるときだけ。</p>
+  </div>
+
+  <div class="ds-group" style="margin-bottom:0">
+    <p class="ds-label">幅</p>
+    <p class="ds-body" style="margin:0">
+      ページの幅は <code style="font-family:var(--font-mono)">max-w-3xl</code>(48rem)の1本きり。
+      中央に寄せ、左右に <code style="font-family:var(--font-mono)">px-4</code> を敷く。段組みは持たない。
+    </p>
+  </div>
+
+</div>
+</div>
+</body>
+</html>
