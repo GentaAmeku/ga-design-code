@@ -47,4 +47,20 @@ Claude Design 側のプロジェクトへは Claude Code から押し出す。�
   }));
 ```
 
-2026-08 時点の実測では about が +44、skills が +249 で違反している。これは既知で、修正は別作業。**新しく違反を増やさないこと**がこの手順の目的。
+2026-08 時点の実測では全セクションが 0 以下（余裕は landing 587 / about 42 / skills 55 / games 52 / contact 111）。**新しく違反を増やさないこと**がこの手順の目的。
+
+`over` が 0 でも安心しない。`min-h-screen` は中身が画面より低ければ画面ぴったりに見せるため、**0 は「収まった」としか言わず、あとどれだけ余裕があるかを教えない**。余裕を知るには中身の高さを測る。
+
+```js
+[...document.querySelectorAll("section")]
+  .filter((s) => s.getBoundingClientRect().height > 0)
+  .map((s) => {
+    const content = [...s.children].reduce(
+      (a, c) => a + Math.round(c.getBoundingClientRect().height),
+      0,
+    );
+    return { content, margin: window.innerHeight - content };
+  });
+```
+
+折り返しの余りも見る。項目を横に並べる箇所では、行の右端が残り数 px しかないと、端末のフォントが少し違うだけで1行増えて破れる。**1行増えても収まるだけの余裕（skills なら 40px）を残す。**

@@ -8,7 +8,7 @@ const AboutSection = async () => {
       <FadeInWithStagger>
         <FadeIn>
           <div className="flex flex-col gap-6 md:flex-row justify-between md:gap-12">
-            <div className="shadow-lg rounded-xl overflow-hidden flex-1 relative aspect-square">
+            <div className="shadow-lg rounded-xl overflow-hidden flex-1 relative aspect-[4/3] md:aspect-square">
               <Image
                 src="/images/about.png"
                 alt="about image"
