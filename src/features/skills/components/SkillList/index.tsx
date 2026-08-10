@@ -7,7 +7,7 @@ type SkillListProps = {
 
 const SkillList = ({ list }: SkillListProps) => {
   return (
-    <div className="flex gap-4 flex-wrap md:gap-6">
+    <div className="flex gap-3 flex-wrap md:gap-6">
       {list.map((skill) => {
         const Icon = skill.icon;
         const hasGold = skill.rank === "gold";
