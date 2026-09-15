@@ -1,15 +1,52 @@
+"use client";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect } from "react";
+import { copy } from "@/features/content/copy";
+import { HeaderPlayer } from "@/features/music/Player";
+import { localizePath } from "@/lib/locale";
+import { useLocale } from "@/lib/useLocale";
 import CustomizeMenu from "./components/CustomizeMenu";
 import GithubLink from "./components/GithubLink";
-
-const Header = () => {
+export default function Header() {
+  const locale = useLocale();
+  const pathname = usePathname();
+  useEffect(() => {
+    document.documentElement.lang = locale;
+  }, [locale]);
   return (
-    <header className="w-full bg-background z-10">
-      <div className="container mx-auto flex h-[var(--custom-header-height)] items-center justify-end px-4 md:px-6">
-        <CustomizeMenu />
-        <GithubLink />
-      </div>
-    </header>
+    <>
+      <a className="skip-link" href="#main-content">
+        {copy[locale].skip}
+      </a>
+      <header className="site-header">
+        <div className="header-inner">
+          <HeaderPlayer />
+          <nav aria-label="Language" className="language-toggle">
+            <Link
+              href={localizePath(pathname, "ja")}
+              scroll={false}
+              hrefLang="ja"
+              lang="ja"
+              aria-current={locale === "ja" ? "page" : undefined}
+            >
+              JA
+            </Link>
+            <span aria-hidden="true">/</span>
+            <Link
+              href={localizePath(pathname, "en")}
+              scroll={false}
+              hrefLang="en"
+              lang="en"
+              aria-current={locale === "en" ? "page" : undefined}
+            >
+              EN
+            </Link>
+          </nav>
+          <CustomizeMenu />
+          <GithubLink />
+        </div>
+      </header>
+    </>
   );
-};
-
-export default Header;
+}

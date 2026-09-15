@@ -24,8 +24,8 @@
   --measure: 48rem;
   --fs-heading: 1.875rem;
   --fs-heading-md: 2.25rem;
-  --lh-heading: 2.75rem;
-  --fs-lead: 1rem;
+  --lh-heading: 1.2;
+  --fs-lead: 15px;
   --fs-lead-md: 1.125rem;
   --tracking-wide: 0.025em;
   --sp-heading-to-lead: 1rem;
@@ -57,6 +57,8 @@ html, body { margin: 0; background: #f4f4f5; }
   font-family: var(--font-mono); font-size: 12px; line-height: 1.7; overflow-x: auto; margin-top: 1.5rem; }
 .ds-note-box { border-left: 3px solid var(--marker-color); padding: .25rem 0 .25rem 1rem; margin-top: 2.5rem; }
 .ds-note-box p { font-size: 1rem; line-height: 1.9; margin: 0; }
+.marker-line { position: relative; isolation: isolate; }
+.marker-line::after { content: ""; position: absolute; inset: auto 0 -0.1em; height: 0.2em; background: var(--marker-color); z-index: -1; }
 </style>
 </head>
 <body>
@@ -70,10 +72,10 @@ html, body { margin: 0; background: #f4f4f5; }
 <div class="ds-wrap">
 
   <div class="ds-case">
-    <div class="ds-case-meta">見出し + リード — games / contact で使用</div>
-    <h2 class="heading">Let me introduce my favorite games.</h2>
-    <p class="lead">The game that influenced my life.</p>
-    <div class="ds-code">&lt;SectionHeading<br>&nbsp;&nbsp;title="Let me introduce my favorite games."<br>&nbsp;&nbsp;lead="The game that influenced my life."<br>/&gt;</div>
+    <div class="ds-case-meta">見出し + リード — music / contact で使用</div>
+    <h2 class="heading">Music</h2>
+    <p class="lead"><span class="marker-line">日々に、音を添える。</span></p>
+    <div class="ds-code">&lt;SectionHeading<br>&nbsp;&nbsp;title="Music"<br>&nbsp;&nbsp;lead="日々に、音を添える。"<br>/&gt;</div>
   </div>
 
   <div class="ds-case">

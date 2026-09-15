@@ -1,3 +1,4 @@
+import { MotionConfig } from "motion/react";
 import { ThemeProvider as NextThemeProvider } from "next-themes";
 import { THEMES } from "@/constants/theme-constants";
 
@@ -14,7 +15,7 @@ export default function ThemeProvider({ children }: ThemeProviderProps) {
       enableSystem={false}
       value={valie}
     >
-      {children}
+      <MotionConfig reducedMotion="user">{children}</MotionConfig>
     </NextThemeProvider>
   );
 }

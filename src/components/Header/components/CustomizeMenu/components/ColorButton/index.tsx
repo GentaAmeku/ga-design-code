@@ -2,18 +2,13 @@
 
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
+import { copy } from "@/features/content/copy";
+import { useLocale } from "@/lib/useLocale";
 import { cn } from "@/lib/utils";
 import type { ThemeColor } from "@/types/theme-types";
 
 type ColorButtonProps = {
   themeColor: ThemeColor;
-};
-
-const capitalize = (str: string) => {
-  if (typeof str !== "string" || str.length === 0) {
-    return "";
-  }
-  return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
 const getColorClass = (themeColor: ThemeColor) => {
@@ -33,9 +28,11 @@ const getSelectedColorClass = (
 
 const ColorButton = ({ themeColor }: ColorButtonProps) => {
   const { theme, setTheme } = useTheme();
+  const t = copy[useLocale()];
   const handleColorButton = () => setTheme(themeColor);
   return (
     <Button
+      aria-pressed={theme === themeColor}
       variant="outline"
       onClick={handleColorButton}
       size="sm"
@@ -50,7 +47,7 @@ const ColorButton = ({ themeColor }: ColorButtonProps) => {
           getColorClass(themeColor),
         )}
       />
-      {capitalize(themeColor)}
+      {t.colors[themeColor]}
     </Button>
   );
 };

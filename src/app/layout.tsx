@@ -1,37 +1,32 @@
 import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
+import { headers } from "next/headers";
+import type { ReactNode } from "react";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import { Toaster } from "@/components/ui/sonner";
-import { commonMetadata } from "@/constants/metadata";
+import AudioProvider from "@/features/music/AudioProvider";
 import ThemeProvider from "@/stores/ThemeProvider";
-
 import "@/styles/global.css";
-
-export const metadata: Metadata = commonMetadata;
-
-type RootLayoutProps = Readonly<{
-  children: React.ReactNode;
-  modal: React.ReactNode;
-}>;
-
-export default function RootLayout({ children, modal }: RootLayoutProps) {
+export const metadata: Metadata = {
+  metadataBase: new URL("https://www.genta-ameku.com"),
+  title: "G.A Design & Code",
+};
+export default async function RootLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  const locale = (await headers()).get("x-site-locale") === "en" ? "en" : "ja";
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <body>
         <ThemeProvider>
-          <main className="bg-background text-foreground flex min-h-dvh flex-col items-center justify-items-center">
+          <AudioProvider>
             <Header />
-            {children}
+            <main id="main-content">{children}</main>
             <Footer />
-            <Toaster
-              position="top-center"
-              toastOptions={{ duration: 6000 }}
-              richColors
-            />
-            {modal}
-            <Analytics />
-          </main>
+            {process.env.VERCEL && <Analytics />}
+          </AudioProvider>
         </ThemeProvider>
       </body>
     </html>

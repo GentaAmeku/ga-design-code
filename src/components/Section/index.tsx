@@ -1,21 +1,17 @@
+import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
-
-type SectionProps = {
+export default function Section({
+  children,
+  className,
+  id,
+}: {
+  children: ReactNode;
   className?: string;
-  children: React.ReactNode;
-};
-
-const Section = ({ className, children }: SectionProps) => {
+  id?: string;
+}) {
   return (
-    <section
-      className={cn(
-        "min-h-screen flex items-center justify-center w-full will-change-transform",
-        className,
-      )}
-    >
-      {children}
+    <section id={id} className={cn("portfolio-section", className)}>
+      <div className="section-content">{children}</div>
     </section>
   );
-};
-
-export default Section;
+}

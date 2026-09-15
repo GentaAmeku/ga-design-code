@@ -1,12 +1,14 @@
 import GithubIcon from "@/components/Icons/GithubIcon";
-import LinkIcon from "@/components/LinkIcon";
-
-const GithubLink = () => {
+export default function GithubLink() {
   return (
-    <LinkIcon href="https://github.com/GentaAmeku" isExternal>
+    <a
+      href="https://github.com/GentaAmeku"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="GitHub"
+      className="icon-link"
+    >
       <GithubIcon className="size-6" />
-    </LinkIcon>
+    </a>
   );
-};
-
-export default GithubLink;
+}

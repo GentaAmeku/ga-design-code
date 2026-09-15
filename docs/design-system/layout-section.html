@@ -48,8 +48,8 @@ html, body { margin: 0; background: #f4f4f5; }
 .ds-screen-cap { font-family: var(--font-mono); font-size: 10px; color: var(--muted-foreground); margin-top: .4rem; }
 
 /* 枠の中身: 上のヘッダー帯 + 中央寄せのセクション */
-.ds-header-band { height: 8%; border-bottom: 1px dashed var(--border); }
-.ds-section { height: 92%; display: flex; align-items: center; justify-content: center; padding: 0 8%; }
+.ds-header-band { position: absolute; inset: 0 0 auto; height: 8%; background: white; border-bottom: 1px dashed var(--border); }
+.ds-section { box-sizing: border-box; height: 100%; display: flex; align-items: center; justify-content: center; padding: 0 8%; }
 .ds-section-inner { width: 100%; text-align: center; }
 .ds-fake-h { height: 10px; background: var(--foreground); border-radius: 2px; margin: 0 auto; width: 70%; }
 .ds-fake-lead { height: 5px; background: var(--muted-foreground); border-radius: 2px; margin: 6px auto 0; width: 45%; }
@@ -137,11 +137,11 @@ html, body { margin: 0; background: #f4f4f5; }
     </div>
     <div class="ds-rule">
       <h3>高さは画面ちょうど</h3>
-      <p>セクションは <code>min-h-screen flex items-center justify-center</code>。縦にも横にも中央へ寄せる。<span class="marker-line">置ける情報量は画面の高さで決まる</span>。</p>
+      <p>セクションは <code>min-height: 100svh flex items-center justify-center</code>。縦にも横にも中央へ寄せる。<span class="marker-line">置ける情報量は画面の高さで決まる</span>。</p>
     </div>
     <div class="ds-rule">
       <h3 class="ds-warn">はみ出しは不具合</h3>
-      <p>実装は <code>min-h-screen</code>(最小値)なので、中身が多ければ黙って伸びる。<span class="ds-warn">目視では気づけない</span>。セクションを足したり中身を増やしたら、375×667 で高さを測る。手順は README にある。</p>
+      <p>実装は <code>min-height: 100svh</code>(最小値)なので、中身が多ければ黙って伸びる。<span class="ds-warn">目視では気づけない</span>。セクションを足したり中身を増やしたら、375×667 で高さを測る。手順は README にある。</p>
     </div>
     <div class="ds-rule">
       <h3>並び</h3>
@@ -149,7 +149,7 @@ html, body { margin: 0; background: #f4f4f5; }
     </div>
     <div class="ds-rule">
       <h3>中身を分ける枠は、それ自体が高さを食う</h3>
-      <p>本体をグループに分けるなら、<span class="marker-line">グループの見出し・区切り線・グループ間の余白を先に数える</span>。skills が 375×667 で 249px はみ出したとき、この足場だけで 388px — 中身に使える 559px の7割 — を占めていた。項目を削るより、区切り線を外してグループ間を <code>gap-8 md:gap-16</code> に詰めるほうが効いた。</p>
+      <p>本体をグループに分けるなら、<span class="marker-line">グループの見出し・区切り線・グループ間の余白を先に数える</span>。skills が 375×667 で 249px はみ出したとき、この足場だけで 388px — 中身に使える 559px の7割 — を占めていた。項目を削るより、区切り線を外してグループ間を <code>gap-4 md:gap-8</code> に詰めるほうが効いた。</p>
     </div>
     <div class="ds-rule">
       <h3>折り返しの右端に余りを残す</h3>

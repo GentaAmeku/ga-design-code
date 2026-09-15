@@ -1,20 +1,17 @@
+"use client";
 import Link from "next/link";
-import Section from "@/components/Section";
-
-const NotFoundPage = () => {
+import { copy } from "@/features/content/copy";
+import { useLocale } from "@/lib/useLocale";
+export default function NotFound() {
+  const locale = useLocale();
+  const t = copy[locale];
   return (
-    <Section className="-mt-[var(--custom-header-height)]">
-      <div className="flex flex-col items-center gap-10">
-        <div className="flex items-center gap-5">
-          <h1 className="text-4xl font-bold">404</h1>
-          <p className="text-xl">Page not found</p>
-        </div>
-        <Link href="/" className="no-underline hover:underline">
-          <p className="text-lg tracking-wider">Go Back Home</p>
-        </Link>
-      </div>
-    </Section>
+    <div className="reading-page text-center">
+      <h1>404</h1>
+      <p className="my-8">{t.missing}</p>
+      <Link className="text-link" href={`/${locale}`}>
+        {t.backHome}
+      </Link>
+    </div>
   );
-};
-
-export default NotFoundPage;
+}

@@ -1,21 +1,18 @@
-type SectionHeadingProps = {
+export default function SectionHeading({
+  title,
+  lead,
+}: {
   title: string;
   lead?: string;
-};
-
-const SectionHeading = ({ title, lead }: SectionHeadingProps) => {
+}) {
   return (
-    <>
-      <h2 className="text-3xl font-bold text-center md:text-4xl leading-11">
-        {title}
-      </h2>
+    <div className="section-heading">
+      <h2>{title}</h2>
       {lead && (
-        <p className="text-muted-foreground text-center mt-4 text-base tracking-wide md:text-lg">
-          {lead}
+        <p>
+          <span className="marker-line">{lead}</span>
         </p>
       )}
-    </>
+    </div>
   );
-};
-
-export default SectionHeading;
+}

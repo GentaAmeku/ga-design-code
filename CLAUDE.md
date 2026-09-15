@@ -21,20 +21,19 @@ pnpm format       # Biome による自動フォーマット (biome format --writ
 
 ### ディレクトリ構成 (`src/`)
 
-- **`app/`** — Next.js App Router。単一ページ構成（`page.tsx`）で、各セクションを feature から import。`@modal/` は parallel route（Intercepting Routes）。
-- **`features/`** — ドメイン単位のモジュール群（`landing`, `about`, `skills`, `games`, `contact`）。各 feature は `components/`, 必要に応じて `actions/`, `hooks/`, `schema/`, `constants/`, `types/` を持つ。
-- **`components/`** — 共通 UI コンポーネント。`ui/` は shadcn/ui（new-york スタイル）で生成されたもの。
-- **`lib/`** — ユーティリティ（`utils.ts` = clsx + tailwind-merge, `radis.ts` = Upstash Redis クライアント, `motion/` = アニメーション設定）。
-- **`stores/`** — ThemeProvider（next-themes）。
-- **`constants/`**, **`types/`** — グローバル定数・型定義。
-- **`styles/`** — `global.css`（Tailwind CSS v4 + shadcn CSS 変数）。
+- `app/[locale]/` — ja/enのトップ、経歴詳細、記事一覧・本文。`proxy.ts`で初期言語とリクエストの言語を処理する。
+- `features/content/` — 仮コンテンツと日英の文言。本文・音源・公開メールアドレスは今後本人と確定する。
+- `features/music/` — ルートに保持する共通音声状態、セクションのプレイヤー、固定ヘッダーの再生表示。
+- `features/` — landing / about / career / skills / writing / music / contact。
+- `components/` — 共通UI。Sectionはトップ専用、読むページはreading-pageを使う。
+- `stores/ThemeProvider.tsx` — 白を保つ4色のテーマ。ダークテーマは追加しない。
+- `styles/` — テーマ色・基本値・画面の骨格。対応する `docs/design-system/` も更新する。
 
-### 主要な技術的特徴
+問い合わせのServer Actions、Resend、Upstash Redis、旧ゲーム紹介のルートは撤去済み。秘密の環境変数を読む必要はない。
 
-- **Server Actions**: `contact` と `games` feature が Server Actions（`actions/`）を使用。コンタクトフォームは Conform + Zod でバリデーション、Resend でメール送信、Upstash Redis でレートリミット。
-- **shadcn/ui**: `pnpm dlx shadcn@latest add <component>` でコンポーネント追加。パス alias は `@/components/ui`。
-- **Motion**: アニメーションライブラリとして motion (Framer Motion 後継) を使用。
-- **パス alias**: `@/*` → `./src/*`
+### 検証
+
+`pnpm check`、`pnpm typecheck`、`pnpm build`。ローカルのproductionサーバーに対して `node scripts/smoke-test.mjs`。デザイン確認には375×667とデスクトップを用いる。
 
 ## Code Style
 
