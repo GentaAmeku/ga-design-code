@@ -47,7 +47,7 @@ export default async function Home({
       </Section>
       <SkillsSection />
       <Section id="writing">
-        <SectionHeading title="Writing" lead={t.writingLead} />
+        <SectionHeading title="Blog" lead={t.writingLead} marker={false} />
         <p className="sample-note mb-3">{t.sample}</p>
         <FeaturedArticles locale={locale} />
         <Link
@@ -58,7 +58,7 @@ export default async function Home({
         </Link>
       </Section>
       <Section id="music">
-        <SectionHeading title="Music" lead={t.musicLead} />
+        <SectionHeading title="Music" lead={t.musicLead} marker={false} />
         <Player />
       </Section>
       <ContactSection locale={locale} />

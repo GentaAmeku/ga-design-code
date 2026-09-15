@@ -11,7 +11,7 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-  return pageMetadata(locale, "/writing", "Writing | G.A Design & Code");
+  return pageMetadata(locale, "/writing", "Blog | G.A Design & Code");
 }
 export default async function Writing({
   params,
@@ -26,7 +26,7 @@ export default async function Writing({
       <Link className="text-link" href={`/${locale}#writing`}>
         ← {t.backHome}
       </Link>
-      <h1>Writing</h1>
+      <h1>Blog</h1>
       <p className="reading-lead">{t.writingLead}</p>
       <p className="sample-note mb-4">{t.sample}</p>
       <ArticleList locale={locale} />

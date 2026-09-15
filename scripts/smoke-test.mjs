@@ -30,8 +30,8 @@ for (const locale of ["ja", "en"]) {
       assert.ok(
         html.includes(
           locale === "ja"
-            ? "日々に、音を添える。"
-            : "A soundtrack for everyday moments.",
+            ? "音楽制作物です。よかったら聞いていってください"
+            : "Music I’ve made. Stay a while and have a listen.",
         ),
       );
     }

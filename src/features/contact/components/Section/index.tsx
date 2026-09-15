@@ -20,10 +20,12 @@ export default function ContactSection({ locale }: { locale: Locale }) {
   };
   return (
     <Section id="contact">
-      <SectionHeading title="Contact" lead={t.contactLead} />
+      <SectionHeading title="Contact" lead={t.contactLead} marker={false} />
       <div className="contact-content">
         <div className="contact-address">
-          <span>{address}</span>
+          <span>
+            <span className="marker-line">{address}</span>
+          </span>
           <button
             type="button"
             className="icon-link"

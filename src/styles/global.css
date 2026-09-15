@@ -169,6 +169,7 @@ input[type="range"] {
   line-height: 1.2;
 }
 .section-heading p {
+  text-wrap: balance;
   color: var(--muted-foreground);
   margin-top: 16px;
   font-size: 18px;
@@ -227,9 +228,15 @@ input[type="range"] {
   gap: 10px;
   color: var(--muted-foreground);
   font-size: 14px;
-  text-decoration: underline;
-  text-decoration-color: var(--border);
-  text-underline-offset: 6px;
+  align-items: center;
+  width: fit-content;
+  max-width: 100%;
+  padding-bottom: 3px;
+  border-bottom: 1px solid var(--muted-foreground);
+  text-decoration: none;
+}
+.text-link svg {
+  flex-shrink: 0;
 }
 .text-link:hover {
   color: var(--foreground);
