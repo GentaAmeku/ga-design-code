@@ -15,6 +15,10 @@ type AudioState = {
   current: number;
   duration: number;
   error: boolean;
+  volume: number;
+  muted: boolean;
+  setVolume: (volume: number) => void;
+  toggleMute: () => void;
   toggle: () => void;
   seek: (time: number) => void;
 };
@@ -31,9 +35,26 @@ export default function AudioProvider({ children }: { children: ReactNode }) {
   const [current, setCurrent] = useState(0);
   const [duration, setDuration] = useState(0);
   const [error, setError] = useState(false);
+  const [volume, updateVolume] = useState(0.3);
+  const [muted, setMuted] = useState(false);
+  const setVolume = (value: number) => {
+    if (!Number.isFinite(value)) return;
+    const next = Math.min(1, Math.max(0, value));
+    if (audio.current) {
+      audio.current.volume = next;
+      audio.current.muted = false;
+    }
+    updateVolume(next);
+    setMuted(false);
+  };
+  const toggleMute = () => {
+    if (audio.current) audio.current.muted = !muted;
+    setMuted(!muted);
+  };
   // Metadata can arrive before React attaches media handlers during hydration.
   useEffect(() => {
     const element = audio.current;
+    if (element) element.volume = 0.3;
     if (element && Number.isFinite(element.duration))
       setDuration(element.duration);
   }, []);
@@ -59,7 +80,19 @@ export default function AudioProvider({ children }: { children: ReactNode }) {
   };
   return (
     <AudioContext.Provider
-      value={{ playing, selected, current, duration, error, toggle, seek }}
+      value={{
+        playing,
+        selected,
+        current,
+        duration,
+        error,
+        toggle,
+        seek,
+        volume,
+        muted,
+        setVolume,
+        toggleMute,
+      }}
     >
       {children}
       {/* Synthetic instrumental preview: no speech or lyric captions are needed. */}

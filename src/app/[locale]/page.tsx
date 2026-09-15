@@ -10,7 +10,7 @@ import { copy } from "@/features/content/copy";
 import LandingSection from "@/features/landing/components/Section";
 import Player from "@/features/music/Player";
 import SkillsSection from "@/features/skills/components/Section";
-import ArticleList from "@/features/writing/ArticleList";
+import FeaturedArticles from "@/features/writing/FeaturedArticles";
 import { isLocale } from "@/lib/locale";
 export async function generateMetadata({
   params,
@@ -34,19 +34,26 @@ export default async function Home({
       <LandingSection locale={locale} />
       <AboutSection locale={locale} />
       <Section id="career">
-        <SectionHeading title="Career" lead={t.careerLead} />
-        <Timeline locale={locale} />
-        <p className="sample-note">{t.sampleCareer}</p>
-        <Link className="text-link mt-6" href={`/${locale}/career`}>
-          {t.careerMore} <span aria-hidden="true">→</span>
-        </Link>
+        <div className="career-layout">
+          <div>
+            <SectionHeading title="Career" lead={t.careerLead} />
+            <p className="career-intro">{t.careerIntro}</p>
+            <Link className="text-link mt-8" href={`/${locale}/career`}>
+              {t.careerMore} <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+          <Timeline locale={locale} />
+        </div>
       </Section>
       <SkillsSection />
       <Section id="writing">
         <SectionHeading title="Writing" lead={t.writingLead} />
         <p className="sample-note mb-3">{t.sample}</p>
-        <ArticleList locale={locale} />
-        <Link className="text-link mt-8" href={`/${locale}/writing`}>
+        <FeaturedArticles locale={locale} />
+        <Link
+          className="text-link mt-8 all-articles"
+          href={`/${locale}/writing`}
+        >
           {t.allArticles} <span aria-hidden="true">→</span>
         </Link>
       </Section>

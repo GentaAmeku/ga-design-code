@@ -10,8 +10,8 @@
    セクションの骨格 — このサイトで最も強い制約
    正: docs/adr/0002-one-section-per-screen.md
    ---------------------------------------------------------------------------
-   トップページは「1スクロールに1セクション」。画面からはみ出させない。
-   置ける情報量は画面の高さで決まる。足したくなったら、まず何を削るかを決める。
+   トップページは1画面を基本単位とする。本人指定の長文・画像付き紹介は例外。
+   本人指定の全文・画像付き紹介は読みやすさを保って伸長する。足したくなったら、まず何を削るかを決める。
    ============================================================================= */
 :root {
   --background: oklch(1 0 0);
@@ -132,15 +132,15 @@ html, body { margin: 0; background: #f4f4f5; }
 
   <div class="ds-rules">
     <div class="ds-rule">
-      <h3>幅は1本きり</h3>
-      <p><code>max-w-3xl</code>(48rem)を中央に寄せ、左右に <code>px-4</code> を敷く。段組みは持たない。幅を増やしたくなったら、それは中身を削る合図。</p>
+      <h3>内容に合わせた幅</h3>
+      <p>基本は最大768px。About / Career / Writingは最大1000px。左右24pxを確保し、375pxでは縦積みにする。</p>
     </div>
     <div class="ds-rule">
-      <h3>高さは画面ちょうど</h3>
-      <p>セクションは <code>min-height: 100svh flex items-center justify-center</code>。縦にも横にも中央へ寄せる。<span class="marker-line">置ける情報量は画面の高さで決まる</span>。</p>
+      <h3>高さは画面を最小値に</h3>
+      <p>セクションは <code>min-height: 100svh flex items-center justify-center</code>。縦にも横にも中央へ寄せる。<span class="marker-line">本人指定の全文・画像付き紹介は読みやすさを保って伸長する</span>。</p>
     </div>
     <div class="ds-rule">
-      <h3 class="ds-warn">はみ出しは不具合</h3>
+      <h3 class="ds-warn">横はみ出しと重なりを防ぐ</h3>
       <p>実装は <code>min-height: 100svh</code>(最小値)なので、中身が多ければ黙って伸びる。<span class="ds-warn">目視では気づけない</span>。セクションを足したり中身を増やしたら、375×667 で高さを測る。手順は README にある。</p>
     </div>
     <div class="ds-rule">
@@ -156,8 +156,8 @@ html, body { margin: 0; background: #f4f4f5; }
       <p>項目を横に並べて折り返す場所では、行の右端が残り数 px だと端末のフォント差だけで1行増える。<span class="ds-warn">1行増えても収まる余裕を残す</span>。375 幅で3項目を並べると、ここは簡単に 0px になる。</p>
     </div>
     <div class="ds-rule">
-      <h3>例外は about だけ</h3>
-      <p>about は画像と文章の2カラムで、見出しも左寄せ。ここだけ骨格から外れている。画像は md 以上が正方形、md 未満は <code>aspect-[4/3]</code> — 正方形のままだと 375×667 で画面の半分を占めて収まらない。<strong>新しい例外を増やさない。</strong></p>
+      <h3>内容に合わせた段組み</h3>
+      <p>about は画像と文章の2カラムで、見出しも左寄せ。画像は md 以上が正方形、md 未満は <code>aspect-[4/3]</code> — 正方形のままだと 375×667 で画面の半分を占めて収まらない。Careerは左に導入、右に現在と過去。Writingは画像と要約の2列。モバイルは縦に並べる。</p>
     </div>
   </div>
 

@@ -56,5 +56,5 @@ export const articleSections = (locale: Locale) =>
         },
       ];
 // Set an approved address here; never use a placeholder as a real mail destination.
-export const contactEmail: string | null = null;
+export const contactEmail: string | null = "genta.ameku.work@gmail.com";
 export const previewTrack = { title: "Track 01", src: "/audio/preview.wav" };

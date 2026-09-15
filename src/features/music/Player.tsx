@@ -1,5 +1,5 @@
 "use client";
-import { Pause, Play } from "lucide-react";
+import { Pause, Play, Volume2, VolumeX } from "lucide-react";
 import { copy } from "@/features/content/copy";
 import { previewTrack } from "@/features/content/data";
 import { useLocale } from "@/lib/useLocale";
@@ -75,6 +75,36 @@ export default function Player() {
             />
             <span className="playback-time">
               {formatTime(player.current)} / {formatTime(player.duration)}
+            </span>
+          </div>
+          <div className="volume-row">
+            <button
+              type="button"
+              className="icon-link"
+              onClick={player.toggleMute}
+              aria-label={player.muted ? t.unmute : t.mute}
+              aria-pressed={player.muted}
+            >
+              {player.muted || player.volume === 0 ? (
+                <VolumeX size={20} />
+              ) : (
+                <Volume2 size={20} />
+              )}
+            </button>
+            <input
+              type="range"
+              min={0}
+              max={100}
+              step={1}
+              value={Math.round(player.volume * 100)}
+              aria-label={t.volume}
+              aria-valuetext={`${Math.round(player.volume * 100)}%`}
+              onChange={(event) =>
+                player.setVolume(Number(event.target.value) / 100)
+              }
+            />
+            <span className="playback-time">
+              {player.muted ? 0 : Math.round(player.volume * 100)}%
             </span>
           </div>
         </div>

@@ -5,12 +5,15 @@ export default function Timeline({ locale }: { locale: Locale }) {
   return (
     <ol className="career-timeline">
       {[
-        { when: t.now, role: t.currentRole },
-        { when: t.past, role: t.pastRole },
+        { when: t.now, role: t.currentRole, body: t.currentBody },
+        { when: t.past, role: t.pastRole, body: t.pastBody },
       ].map((item) => (
         <li key={item.when}>
           <span className="career-period">{item.when}</span>
-          <h3 className="font-semibold text-lg">{item.role}</h3>
+          <div>
+            <h3 className="font-semibold text-lg">{item.role}</h3>
+            <p className="career-description">{item.body}</p>
+          </div>
         </li>
       ))}
     </ol>

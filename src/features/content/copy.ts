@@ -1,18 +1,28 @@
 import type { Locale } from "@/lib/locale";
 export const copy = {
   ja: {
-    tagline: "心地よいデジタル体験を。",
-    aboutLead: "生成AIの導入支援・AI駆動開発。",
-    aboutBody: "フロントエンドの経験を土台に、設計から日々の運用まで。",
-    aboutNote: "紹介文は、これから少しずつ。",
-    careerLead: "これまでと、これから。",
+    tagline: "Crafting delightful digital experiences.",
+    aboutLead: "AI Enablement Engineer",
+    aboutBody: [
+      "東京を拠点に、企業の生成AI導入とAI駆動開発を支援しています。",
+      "AIツールを入れるだけでは、現場の仕事はなかなか変わりません。最近はコードを書くより、AIエージェントが安定して働ける環境(ハーネス)を設計し、チームが迷わずAIを使える仕組みを整えることに時間を使っています。開発者の認知負荷を減らし、AIに任せる部分と人が判断する部分を切り分けるのが得意です。",
+      "土台にあるのは、フロントエンド開発で積み重ねてきた、使いやすく高性能なUIづくりとテックリードの経験です。",
+      "休みの日は、ゲームをしたり、DJを聴いたりプレイしたりして楽しんでいます。",
+    ],
+    careerLead: "設計から、日々の運用まで。",
+    careerIntro:
+      "技術で、仕事の進め方やつくり方を少しずつ良くしていきたい。生成AIを軸に、実装から運用まで、現場に寄り添ったものづくりをしています。",
+    currentBody:
+      "業務への生成AIの導入支援や、AIを活用した開発フローの設計・実装に取り組んでいます。日々の業務が少しでも楽になり、創造的な仕事に集中できる環境づくりを目指しています。",
+    pastBody:
+      "使いやすく、長く使えるプロダクトを。UI設計から実装・改善まで、フロントエンドを中心に取り組んできました。",
     now: "現在",
     past: "これまで",
     currentRole: "生成AIの導入支援・AI駆動開発",
     pastRole: "フロントエンド開発",
     careerMore: "経歴を詳しく",
     sampleCareer: "期間・案件・実績は後日掲載します。",
-    writingLead: "考えたこと、つくったこと。",
+    writingLead: "つくること、考えること、試してみたこと。",
     allArticles: "すべての記事",
     sample: "表示サンプル",
     articleNote:
@@ -26,10 +36,13 @@ export const copy = {
     play: "再生",
     pause: "一時停止",
     seek: "再生位置",
+    volume: "音量",
+    mute: "ミュート",
+    unmute: "ミュート解除",
     audioError: "音源を再生できませんでした。もう一度お試しください。",
     playing: "再生中",
     paused: "一時停止中",
-    contactLead: "お話ししましょう。",
+    contactLead: "お気軽に連絡お待ちしております。",
     copyEmail: "メールアドレスをコピー",
     copied: "コピーしました",
     copyFailed:
@@ -53,18 +66,27 @@ export const copy = {
   },
   en: {
     tagline: "Crafting delightful digital experiences.",
-    aboutLead: "Generative AI adoption & AI-driven development.",
-    aboutBody:
-      "Grounded in frontend experience. From design to everyday operations.",
-    aboutNote: "More about me, soon.",
-    careerLead: "Where I have been. Where I am going.",
+    aboutLead: "AI Enablement Engineer",
+    aboutBody: [
+      "Based in Tokyo, I help companies adopt generative AI and move to AI-driven development.",
+      "Adding AI tools alone rarely changes how teams actually work. These days I spend less time writing code and more time designing harnesses (the environments that let AI agents work reliably) and building systems that help teams use AI with confidence. I focus on reducing cognitive load for developers and drawing a clear line between what AI handles and what people decide.",
+      "My foundation is in frontend engineering and tech leadership, building fast, intuitive user interfaces.",
+      "On my days off, I enjoy gaming, listening to DJ sets, and DJing myself.",
+    ],
+    careerLead: "From design to everyday operations.",
+    careerIntro:
+      "Making the way we work and build a little better through technology. With generative AI at the center, I work closely with teams from implementation to everyday operations.",
+    currentBody:
+      "I help teams adopt generative AI and design and implement AI-assisted development workflows, making daily work easier and creating more room for creative work.",
+    pastBody:
+      "Building intuitive products that last. My work has centered on frontend engineering, from UI design to implementation and continuous improvement.",
     now: "Now",
     past: "Previously",
     currentRole: "AI adoption & AI-driven development",
     pastRole: "Frontend development",
     careerMore: "Explore my experience",
     sampleCareer: "Dates, projects and experience will be added later.",
-    writingLead: "Things I think about. Things I make.",
+    writingLead: "Making, thinking, and trying things out.",
     allArticles: "All articles",
     sample: "Layout sample",
     articleNote:
@@ -78,10 +100,13 @@ export const copy = {
     play: "Play",
     pause: "Pause",
     seek: "Playback position",
+    volume: "Volume",
+    mute: "Mute",
+    unmute: "Unmute",
     audioError: "Unable to play the audio. Please try again.",
     playing: "Playing",
     paused: "Paused",
-    contactLead: "Let’s talk.",
+    contactLead: "Feel free to get in touch.",
     copyEmail: "Copy email address",
     copied: "Copied",
     copyFailed: "Unable to copy. Please select and copy the address.",

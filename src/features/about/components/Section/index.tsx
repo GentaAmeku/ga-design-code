@@ -18,13 +18,17 @@ export default function AboutSection({ locale }: { locale: Locale }) {
         </div>
         <div>
           <h2 className="text-3xl md:text-4xl font-bold">About Me</h2>
-          <p className="mt-5 text-lg leading-relaxed">
+          <p className="mt-5 text-lg font-semibold leading-relaxed">
             <span className="marker-line">{t.aboutLead}</span>
           </p>
-          <p className="mt-4 text-muted-foreground leading-loose">
-            {t.aboutBody}
-          </p>
-          <p className="sample-note mt-4">{t.aboutNote}</p>
+          {t.aboutBody.map((paragraph) => (
+            <p
+              key={paragraph}
+              className="mt-4 text-muted-foreground leading-loose"
+            >
+              {paragraph}
+            </p>
+          ))}
         </div>
       </div>
     </Section>
