@@ -4,9 +4,8 @@ export const copy = {
     tagline: "Crafting delightful digital experiences.",
     aboutLead: "AI Enablement Engineer",
     aboutBody: [
-      "東京を拠点に、企業の生成AI導入とAI駆動開発を支援しています。",
-      "AIツールを入れるだけでは、現場の仕事はなかなか変わりません。最近はコードを書くより、AIエージェントが安定して働ける環境(ハーネス)を設計し、チームが迷わずAIを使える仕組みを整えることに時間を使っています。開発者の認知負荷を減らし、AIに任せる部分と人が判断する部分を切り分けるのが得意です。",
-      "土台にあるのは、フロントエンド開発で積み重ねてきた、使いやすく高性能なUIづくりとテックリードの経験です。",
+      "現在は東京を拠点に、企業の生成AI導入とAI駆動開発を支援しています。",
+      "元々は、フロントエンド領域に特化したエンジニアとして、UI/UXの改善や開発を行なっていましたが、近年ではAIの発達により、チーム向けにパーソナルナレッジベース/エージェントの仕組み化、人間の認知負荷軽減のための施策をメインの業務として行なっています。",
       "休みの日は、ゲームをしたり、DJを聴いたりプレイしたりして楽しんでいます。",
     ],
     careerLead: "設計から、日々の運用まで。",
@@ -68,9 +67,8 @@ export const copy = {
     tagline: "Crafting delightful digital experiences.",
     aboutLead: "AI Enablement Engineer",
     aboutBody: [
-      "Based in Tokyo, I help companies adopt generative AI and move to AI-driven development.",
-      "Adding AI tools alone rarely changes how teams actually work. These days I spend less time writing code and more time designing harnesses (the environments that let AI agents work reliably) and building systems that help teams use AI with confidence. I focus on reducing cognitive load for developers and drawing a clear line between what AI handles and what people decide.",
-      "My foundation is in frontend engineering and tech leadership, building fast, intuitive user interfaces.",
+      "Currently based in Tokyo, I help companies adopt generative AI and move to AI-driven development.",
+      "I started out as an engineer specializing in frontend development, building and improving user interfaces and user experiences. As AI has advanced in recent years, my work has shifted toward helping teams establish systems for personal knowledge bases and AI agents, and introducing practices that reduce people's cognitive load.",
       "On my days off, I enjoy gaming, listening to DJ sets, and DJing myself.",
     ],
     careerLead: "From design to everyday operations.",

@@ -519,7 +519,7 @@ input[type="range"] {
 }
 .career-layout .section-heading h2,
 #writing .section-heading h2 {
-  font-size: 52px;
+  font-size: 36px;
 }
 .career-intro,
 .career-description {
@@ -539,7 +539,7 @@ input[type="range"] {
   display: none;
 }
 .career-timeline h3 {
-  font-size: 23px;
+  font-size: 20px;
   line-height: 1.5;
   margin: 8px 0 14px;
 }
@@ -556,7 +556,7 @@ input[type="range"] {
   align-items: center;
 }
 .featured-articles h3 {
-  font-size: 24px;
+  font-size: 20px;
   line-height: 1.5;
   font-weight: 600;
 }
@@ -681,16 +681,24 @@ input[type="range"] {
   }
   .career-layout .section-heading h2,
   #writing .section-heading h2 {
-    font-size: 36px;
+    font-size: 30px;
   }
   .career-timeline h3,
   .featured-articles h3 {
-    font-size: 21px;
+    font-size: 16px;
   }
   .featured-articles li {
     gap: 24px;
   }
   .career-timeline li {
     padding-bottom: 32px;
+  }
+}
+
+@media (max-width: 767px) {
+  .career-intro,
+  .career-description,
+  .featured-articles > li > div > p {
+    font-size: 15px;
   }
 }

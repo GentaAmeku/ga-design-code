@@ -11,7 +11,7 @@ import SkillSection from "../SkillSection";
 
 const SkillsSection = async () => {
   return (
-    <Section id="skills" className="skills-section">
+    <Section id="skills" className="skills-section" animate={false}>
       <FadeInWithStagger>
         <div className="flex flex-col">
           <FadeIn>

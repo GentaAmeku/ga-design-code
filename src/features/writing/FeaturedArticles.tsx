@@ -60,7 +60,7 @@ export default function FeaturedArticles({ locale }: { locale: Locale }) {
             <p>{descriptions[locale][index]}</p>
             <Link
               className="text-link"
-              href={`/${locale}/writing/${article.slug}`}
+              href={`/${locale}/writing/${article.slug}?from=home`}
             >
               {copy[locale].read}
               <ArrowRight size={16} aria-hidden="true" />

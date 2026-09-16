@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { copy } from "@/features/content/copy";
 import { HeaderPlayer } from "@/features/music/Player";
@@ -11,6 +11,8 @@ import GithubLink from "./components/GithubLink";
 export default function Header() {
   const locale = useLocale();
   const pathname = usePathname();
+  const fromHome = useSearchParams().get("from") === "home";
+  const sourceQuery = fromHome ? "?from=home" : "";
   useEffect(() => {
     document.documentElement.lang = locale;
   }, [locale]);
@@ -24,7 +26,7 @@ export default function Header() {
           <HeaderPlayer />
           <nav aria-label="Language" className="language-toggle">
             <Link
-              href={localizePath(pathname, "ja")}
+              href={localizePath(pathname, "ja") + sourceQuery}
               scroll={false}
               hrefLang="ja"
               lang="ja"
@@ -34,7 +36,7 @@ export default function Header() {
             </Link>
             <span aria-hidden="true">/</span>
             <Link
-              href={localizePath(pathname, "en")}
+              href={localizePath(pathname, "en") + sourceQuery}
               scroll={false}
               hrefLang="en"
               lang="en"

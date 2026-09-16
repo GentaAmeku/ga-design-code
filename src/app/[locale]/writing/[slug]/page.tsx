@@ -24,17 +24,22 @@ export async function generateMetadata({
 }
 export default async function Article({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string; slug: string }>;
+  searchParams: Promise<{ from?: string | string[] }>;
 }) {
   const { locale, slug } = await params;
   const article = getArticle(slug);
   if (!isLocale(locale) || !article) notFound();
   const t = copy[locale];
+  const fromHome = (await searchParams).from === "home";
+  const backHref = fromHome ? `/${locale}#writing` : `/${locale}/writing`;
+  const backLabel = fromHome ? t.backHome : t.backWriting;
   return (
     <article className="reading-page">
-      <Link className="text-link" href={`/${locale}/writing`}>
-        ← {t.backWriting}
+      <Link className="text-link" href={backHref}>
+        ← {backLabel}
       </Link>
       <p className="sample-note mt-14">{t.sample}</p>
       <h1 className="article-title">{article.title[locale]}</h1>
@@ -47,8 +52,8 @@ export default async function Article({
           </section>
         ))}
       </div>
-      <Link className="text-link mt-16" href={`/${locale}/writing`}>
-        ← {t.backWriting}
+      <Link className="text-link mt-16" href={backHref}>
+        ← {backLabel}
       </Link>
     </article>
   );
