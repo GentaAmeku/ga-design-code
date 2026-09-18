@@ -27,7 +27,7 @@ export async function generateMetadata({
   const { locale, slug } = await params;
   if (!isLocale(locale)) notFound();
   const article = await getArticle(locale, slug);
-  if (!article) notFound();
+  if (!article || article.draft) notFound();
   return {
     ...pageMetadata(
       locale,
@@ -48,7 +48,7 @@ export default async function Article({
   const { locale, slug } = await params;
   if (!isLocale(locale)) notFound();
   const article = await getArticle(locale, slug);
-  if (!article) notFound();
+  if (!article || article.draft) notFound();
   const t = copy[locale];
   const fromHome = (await searchParams).from === "home";
   const backHref = fromHome ? `/${locale}#blog` : `/${locale}/blog`;
@@ -58,7 +58,18 @@ export default async function Article({
       <Link className="text-link" href={backHref}>
         ← {backLabel}
       </Link>
-      {article.draft ? <p className="sample-note mt-14">{t.sample}</p> : null}
+      <p className="article-dates">
+        <span>
+          {t.createdAt}:{" "}
+          <time dateTime={article.createdAt}>{article.createdAt}</time>
+        </span>
+        {article.updatedAt ? (
+          <span>
+            {t.updatedAt}:{" "}
+            <time dateTime={article.updatedAt}>{article.updatedAt}</time>
+          </span>
+        ) : null}
+      </p>
       <h1 className="article-title">{article.title}</h1>
       <p className="reading-lead">{article.description}</p>
       <MarkdownArticle content={article.content} />

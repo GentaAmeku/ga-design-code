@@ -1,0 +1,195 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "AI-Driven Workflow from Meetings to Implementation",
+    "locale": "en",
+    "animation": "trace",
+    "quality_profile": "showcase",
+    "views": [
+      {
+        "id": "capture_meeting",
+        "label": "Capture the meeting",
+        "focus": ["calendar", "recorder"],
+        "note": "Pass meeting details to the recorder, then record and transcribe the conversation."
+      },
+      {
+        "id": "organize_tasks",
+        "label": "Organize tasks",
+        "focus": ["orca_intake", "task_manager"],
+        "note": "Orca receives the transcript and reconciles it with existing tasks."
+      },
+      {
+        "id": "review_execute",
+        "label": "Review and implement",
+        "focus": ["human_review", "orca_dispatch", "worktrees"],
+        "note": "After human review, Orca sends implementation requests to each worktree."
+      }
+    ]
+  },
+  "lanes": [
+    { "id": "apps", "label": "Custom Apps" },
+    { "id": "orchestration", "label": "AI Orchestration" },
+    {
+      "id": "review_execution",
+      "label": "Review & Implementation",
+      "variant": "exception"
+    }
+  ],
+  "phases": [
+    { "id": "capture", "label": "Capture meeting", "fromCol": 0, "toCol": 1 },
+    {
+      "id": "organize",
+      "label": "Organize tasks",
+      "fromCol": 2,
+      "toCol": 3,
+      "variant": "emphasis"
+    },
+    {
+      "id": "execute",
+      "label": "Review and implement",
+      "fromCol": 4,
+      "toCol": 5,
+      "variant": "dashed"
+    }
+  ],
+  "mainPath": [
+    "calendar",
+    "recorder",
+    "orca_intake",
+    "task_manager",
+    "human_review",
+    "orca_dispatch",
+    "worktrees"
+  ],
+  "semanticChecks": {
+    "allowedRoots": ["calendar"],
+    "allowedTerminals": ["worktrees"],
+    "requiredPaths": [
+      { "from": "calendar", "to": "worktrees" },
+      { "from": "task_manager", "to": "human_review" }
+    ]
+  },
+  "nodes": [
+    {
+      "id": "calendar",
+      "lane": "apps",
+      "col": 0,
+      "type": "frontend",
+      "label": "Calendar App",
+      "sublabel": "Notifies meetings",
+      "tag": "Custom",
+      "width": 148
+    },
+    {
+      "id": "recorder",
+      "lane": "apps",
+      "col": 1,
+      "type": "backend",
+      "label": "Recording App",
+      "sublabel": "Records and transcribes",
+      "tag": "Local processing",
+      "width": 148
+    },
+    {
+      "id": "orca_intake",
+      "lane": "orchestration",
+      "col": 2,
+      "type": "backend",
+      "label": "Orca",
+      "sublabel": "Receives transcript",
+      "tag": "Orca CLI",
+      "width": 148
+    },
+    {
+      "id": "task_manager",
+      "lane": "apps",
+      "col": 3,
+      "type": "database",
+      "label": "Task Management App",
+      "sublabel": "Organizes progress and tasks",
+      "tag": "Skill + MCP",
+      "width": 148
+    },
+    {
+      "id": "human_review",
+      "lane": "review_execution",
+      "col": 4,
+      "type": "security",
+      "label": "Human Review",
+      "sublabel": "Classifies ongoing or new work",
+      "tag": "Approval gate",
+      "width": 148
+    },
+    {
+      "id": "orca_dispatch",
+      "lane": "orchestration",
+      "col": 4,
+      "type": "messagebus",
+      "label": "Orca Dispatches Work",
+      "sublabel": "Assigns tasks",
+      "tag": "Orchestration",
+      "width": 148
+    },
+    {
+      "id": "worktrees",
+      "lane": "review_execution",
+      "col": 5,
+      "type": "cloud",
+      "label": "Worktrees",
+      "sublabel": "AI agents implement tasks",
+      "tag": "Parallel execution",
+      "width": 148
+    }
+  ],
+  "edges": [
+    {
+      "id": "calendar_recorder",
+      "from": "calendar",
+      "to": "recorder",
+      "label": "Meeting details",
+      "variant": "default",
+      "role": "main"
+    },
+    {
+      "id": "recorder_orca",
+      "from": "recorder",
+      "to": "orca_intake",
+      "label": "Transcript path",
+      "variant": "emphasis",
+      "role": "main"
+    },
+    {
+      "id": "orca_tasks",
+      "from": "orca_intake",
+      "to": "task_manager",
+      "label": "Reconcile tasks",
+      "variant": "default",
+      "role": "main"
+    },
+    {
+      "id": "tasks_review",
+      "from": "task_manager",
+      "to": "human_review",
+      "label": "Request review",
+      "variant": "security",
+      "role": "main"
+    },
+    {
+      "id": "review_dispatch",
+      "from": "human_review",
+      "to": "orca_dispatch",
+      "label": "Approve",
+      "variant": "emphasis",
+      "role": "main"
+    },
+    {
+      "id": "dispatch_worktrees",
+      "from": "orca_dispatch",
+      "to": "worktrees",
+      "label": "Request implementation",
+      "variant": "emphasis",
+      "role": "main"
+    }
+  ]
+}

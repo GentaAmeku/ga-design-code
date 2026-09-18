@@ -3,6 +3,7 @@ title: "AIが作る資料に、なぜ「仕上げの場所」が必要なのか"
 description: "AIが生成した資料を、人がWebUIでグラフィカルに仕上げられるAI Deck Studioの開発について紹介します。"
 order: 2
 draft: true
+createdAt: "2026-09-18"
 ---
 
 ## はじめに

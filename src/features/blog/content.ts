@@ -9,16 +9,15 @@ import type { Locale } from "@/lib/locale";
 
 const blogRoot = path.join(process.cwd(), "content", "blog");
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const dateSchema = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
 
 const frontMatterSchema = z.object({
   title: z.string().trim().min(1),
   description: z.string().trim().min(1),
   order: z.number().int().nonnegative().default(999),
   draft: z.boolean().default(true),
-  publishedAt: z
-    .string()
-    .regex(/^\d{4}-\d{2}-\d{2}$/)
-    .optional(),
+  createdAt: dateSchema,
+  updatedAt: dateSchema.optional(),
 });
 
 export type BlogArticle = z.infer<typeof frontMatterSchema> & {
@@ -104,10 +103,12 @@ export const getArticles = cache(
           }),
       );
 
-      return articles.sort(
-        (left, right) =>
-          left.order - right.order || left.slug.localeCompare(right.slug),
-      );
+      return articles
+        .filter((article) => !article.draft)
+        .sort(
+          (left, right) =>
+            left.order - right.order || left.slug.localeCompare(right.slug),
+        );
     } catch (error) {
       if (
         error instanceof Error &&

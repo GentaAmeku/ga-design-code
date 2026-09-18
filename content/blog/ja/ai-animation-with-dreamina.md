@@ -3,6 +3,7 @@ title: "1枚のキャラクター資料から、AIでアニメーションをつ
 description: "GPT Image 2.5で作ったキャラクター資料をもとに、DreaminaとSeedance 2.5でアニメーションを制作した過程を紹介します。"
 order: 3
 draft: true
+createdAt: "2026-09-18"
 ---
 
 ## はじめに

@@ -3,6 +3,7 @@ title: "From one character sheet to AI animation"
 description: "How I created character references with GPT Image 2.5 and turned them into animation with Dreamina and Seedance 2.5."
 order: 3
 draft: true
+createdAt: "2026-09-18"
 ---
 
 ## Introduction

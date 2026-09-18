@@ -34,20 +34,42 @@ for (const locale of ["ja", "en"]) {
             : "Music I’ve made. Stay a while and have a listen.",
         ),
       );
+      assert.ok(html.includes("2026-09-18"));
+      assert.doesNotMatch(
+        html,
+        /AIが作る資料に|Why AI-generated decks need|1枚のキャラクター資料|From one character sheet/,
+      );
+    }
+    if (path === "/blog") {
+      assert.ok(html.includes("2026-09-18"));
+      assert.doesNotMatch(
+        html,
+        /AIが作る資料に|Why AI-generated decks need|1枚のキャラクター資料|From one character sheet/,
+      );
     }
     if (path.includes("ai-driven-workflow")) {
-      assert.match(html, /noindex/);
+      assert.doesNotMatch(html, /noindex/);
+      assert.ok(html.includes(locale === "ja" ? "作成日" : "Created"));
+      assert.ok(html.includes(locale === "ja" ? "最終更新日" : "Last updated"));
       assert.ok(
         html.includes(
           locale === "ja"
             ? "日々の仕事で感じていた負担"
-            : "The everyday workload I wanted to reduce",
+            : "The burden of managing daily work",
         ),
       );
     }
   }
 }
-for (const path of ["/preview", "/fr", "/ja/blog/not-an-article"]) {
+for (const path of [
+  "/preview",
+  "/fr",
+  "/ja/blog/not-an-article",
+  "/ja/blog/ai-deck-studio",
+  "/en/blog/ai-deck-studio",
+  "/ja/blog/ai-animation-with-dreamina",
+  "/en/blog/ai-animation-with-dreamina",
+]) {
   const response = await fetch(origin + path);
   assert.equal(response.status, 404, path);
 }
@@ -67,5 +89,5 @@ for (const track of [
   assert.equal(artwork.status, 200, track);
 }
 console.log(
-  "PASS: locale redirects, 8 localized pages, 3 missing routes, no forms, audio range delivery",
+  "PASS: locale redirects, 8 localized pages, 7 missing or draft routes, no forms, audio range delivery",
 );

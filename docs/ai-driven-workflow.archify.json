@@ -1,0 +1,194 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "会議から実装までをAIへ渡す業務フロー",
+    "animation": "trace",
+    "quality_profile": "showcase",
+    "views": [
+      {
+        "id": "capture_meeting",
+        "label": "会議を記録",
+        "focus": ["calendar", "recorder"],
+        "note": "会議情報を渡し、録音と文字起こしを行う流れ。"
+      },
+      {
+        "id": "organize_tasks",
+        "label": "タスクを整理",
+        "focus": ["orca_intake", "task_manager"],
+        "note": "Orcaが文字起こしを受け取り、既存タスクと照合する流れ。"
+      },
+      {
+        "id": "review_execute",
+        "label": "確認して実装",
+        "focus": ["human_review", "orca_dispatch", "worktrees"],
+        "note": "人間のレビュー後、各ワークツリーへ実装を依頼する流れ。"
+      }
+    ]
+  },
+  "lanes": [
+    { "id": "apps", "label": "自作アプリ" },
+    { "id": "orchestration", "label": "AIオーケストレーション" },
+    {
+      "id": "review_execution",
+      "label": "レビューと実装",
+      "variant": "exception"
+    }
+  ],
+  "phases": [
+    { "id": "capture", "label": "会議を記録", "fromCol": 0, "toCol": 1 },
+    {
+      "id": "organize",
+      "label": "タスクを整理",
+      "fromCol": 2,
+      "toCol": 3,
+      "variant": "emphasis"
+    },
+    {
+      "id": "execute",
+      "label": "確認して実装",
+      "fromCol": 4,
+      "toCol": 5,
+      "variant": "dashed"
+    }
+  ],
+  "mainPath": [
+    "calendar",
+    "recorder",
+    "orca_intake",
+    "task_manager",
+    "human_review",
+    "orca_dispatch",
+    "worktrees"
+  ],
+  "semanticChecks": {
+    "allowedRoots": ["calendar"],
+    "allowedTerminals": ["worktrees"],
+    "requiredPaths": [
+      { "from": "calendar", "to": "worktrees" },
+      { "from": "task_manager", "to": "human_review" }
+    ]
+  },
+  "nodes": [
+    {
+      "id": "calendar",
+      "lane": "apps",
+      "col": 0,
+      "type": "frontend",
+      "label": "カレンダーアプリ",
+      "sublabel": "会議を通知",
+      "tag": "自作",
+      "width": 148
+    },
+    {
+      "id": "recorder",
+      "lane": "apps",
+      "col": 1,
+      "type": "backend",
+      "label": "録音アプリ",
+      "sublabel": "録音・文字起こし",
+      "tag": "ローカル処理",
+      "width": 148
+    },
+    {
+      "id": "orca_intake",
+      "lane": "orchestration",
+      "col": 2,
+      "type": "backend",
+      "label": "Orca",
+      "sublabel": "文字起こしを受領",
+      "tag": "Orca CLI",
+      "width": 148
+    },
+    {
+      "id": "task_manager",
+      "lane": "apps",
+      "col": 3,
+      "type": "database",
+      "label": "タスク管理アプリ",
+      "sublabel": "進捗とタスクを整理",
+      "tag": "Skill + MCP",
+      "width": 148
+    },
+    {
+      "id": "human_review",
+      "lane": "review_execution",
+      "col": 4,
+      "type": "security",
+      "label": "人間がレビュー",
+      "sublabel": "継続・新規を判断",
+      "tag": "承認ゲート",
+      "width": 148
+    },
+    {
+      "id": "orca_dispatch",
+      "lane": "orchestration",
+      "col": 4,
+      "type": "messagebus",
+      "label": "Orcaが依頼を送信",
+      "sublabel": "タスクを振り分け",
+      "tag": "オーケストレーション",
+      "width": 148
+    },
+    {
+      "id": "worktrees",
+      "lane": "review_execution",
+      "col": 5,
+      "type": "cloud",
+      "label": "各ワークツリー",
+      "sublabel": "AIエージェントが実装",
+      "tag": "並列実行",
+      "width": 148
+    }
+  ],
+  "edges": [
+    {
+      "id": "calendar_recorder",
+      "from": "calendar",
+      "to": "recorder",
+      "label": "会議情報",
+      "variant": "default",
+      "role": "main"
+    },
+    {
+      "id": "recorder_orca",
+      "from": "recorder",
+      "to": "orca_intake",
+      "label": "文字起こしのパス",
+      "variant": "emphasis",
+      "role": "main"
+    },
+    {
+      "id": "orca_tasks",
+      "from": "orca_intake",
+      "to": "task_manager",
+      "label": "タスクを照合・整理",
+      "variant": "default",
+      "role": "main"
+    },
+    {
+      "id": "tasks_review",
+      "from": "task_manager",
+      "to": "human_review",
+      "label": "レビューを依頼",
+      "variant": "security",
+      "role": "main"
+    },
+    {
+      "id": "review_dispatch",
+      "from": "human_review",
+      "to": "orca_dispatch",
+      "label": "承認",
+      "variant": "emphasis",
+      "role": "main"
+    },
+    {
+      "id": "dispatch_worktrees",
+      "from": "orca_dispatch",
+      "to": "worktrees",
+      "label": "実装を依頼",
+      "variant": "emphasis",
+      "role": "main"
+    }
+  ]
+}

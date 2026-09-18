@@ -470,6 +470,15 @@ input[type="range"] {
 .reading-page > h1.article-title {
   margin-top: 16px;
 }
+.article-dates {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin-top: 56px;
+  color: var(--muted-foreground);
+  font-size: 13px;
+  line-height: 1.7;
+}
 .career-page > h1 {
   margin-bottom: 64px;
 }
@@ -747,6 +756,13 @@ input[type="range"] {
   font-size: 20px;
   line-height: 1.5;
   font-weight: 600;
+}
+.article-date {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--muted-foreground);
+  font-size: 13px;
+  line-height: 1.7;
 }
 .featured-articles p {
   color: var(--muted-foreground);

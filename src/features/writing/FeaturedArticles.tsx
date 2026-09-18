@@ -18,6 +18,9 @@ export default async function FeaturedArticles({
       {items.map((article) => (
         <li key={article.slug}>
           <div>
+            <time className="article-date" dateTime={article.createdAt}>
+              {article.createdAt}
+            </time>
             <h3>{article.title}</h3>
             <p>{article.description}</p>
             <Link
