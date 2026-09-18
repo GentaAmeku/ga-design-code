@@ -7,7 +7,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { previewTrack } from "@/features/content/data";
+import { tracks } from "@/features/content/data";
 
 type AudioState = {
   playing: boolean;
@@ -17,6 +17,9 @@ type AudioState = {
   error: boolean;
   volume: number;
   muted: boolean;
+  trackIndex: number;
+  track: (typeof tracks)[number];
+  selectTrack: (index: number) => void;
   setVolume: (volume: number) => void;
   toggleMute: () => void;
   toggle: () => void;
@@ -37,6 +40,9 @@ export default function AudioProvider({ children }: { children: ReactNode }) {
   const [error, setError] = useState(false);
   const [volume, updateVolume] = useState(0.3);
   const [muted, setMuted] = useState(false);
+  const [trackIndex, setTrackIndex] = useState(0);
+  const autoplayOnChange = useRef(false);
+  const track = tracks[trackIndex] ?? tracks[0];
   const setVolume = (value: number) => {
     if (!Number.isFinite(value)) return;
     const next = Math.min(1, Math.max(0, value));
@@ -58,6 +64,19 @@ export default function AudioProvider({ children }: { children: ReactNode }) {
     if (element && Number.isFinite(element.duration))
       setDuration(element.duration);
   }, []);
+  // When the track changes via the list, start playback of the new source.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: playback must restart when the track source changes
+  useEffect(() => {
+    const element = audio.current;
+    if (!element || !autoplayOnChange.current) return;
+    autoplayOnChange.current = false;
+    setCurrent(0);
+    setError(false);
+    void element.play().catch(() => {
+      setError(true);
+      setPlaying(false);
+    });
+  }, [track.src]);
   const toggle = () => {
     const element = audio.current;
     if (!element) return;
@@ -72,6 +91,19 @@ export default function AudioProvider({ children }: { children: ReactNode }) {
       setError(true);
       setPlaying(false);
     });
+  };
+  const selectTrack = (index: number) => {
+    if (!Number.isInteger(index) || index < 0 || index >= tracks.length) return;
+    if (index === trackIndex) {
+      toggle();
+      return;
+    }
+    setTrackIndex(index);
+    setSelected(true);
+    setCurrent(0);
+    setDuration(0);
+    setError(false);
+    autoplayOnChange.current = true;
   };
   const seek = (time: number) => {
     if (!audio.current || !Number.isFinite(duration) || duration <= 0) return;
@@ -92,14 +124,17 @@ export default function AudioProvider({ children }: { children: ReactNode }) {
         muted,
         setVolume,
         toggleMute,
+        trackIndex,
+        track,
+        selectTrack,
       }}
     >
       {children}
-      {/* Synthetic instrumental preview: no speech or lyric captions are needed. */}
-      {/* biome-ignore lint/a11y/useMediaCaption: instrumental test audio has no speech */}
+      {/* Original instrumental tracks: no speech or lyric captions are needed. */}
+      {/* biome-ignore lint/a11y/useMediaCaption: instrumental audio has no speech */}
       <audio
         ref={audio}
-        src={previewTrack.src}
+        src={track.src}
         preload="metadata"
         onPlay={() => setPlaying(true)}
         onPause={() => setPlaying(false)}

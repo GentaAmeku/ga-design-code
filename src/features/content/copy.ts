@@ -6,18 +6,18 @@ export const copy = {
     aboutBody: [
       "現在は東京を拠点に、企業の生成AI導入とAI駆動開発を支援しています。",
       "元々は、フロントエンド領域に特化したエンジニアとして、UI/UXの改善や開発を行なっていましたが、近年ではAIの発達により、チーム向けにパーソナルナレッジベース/エージェントの仕組み化、人間の認知負荷軽減のための施策をメインの業務として行なっています。",
-      "休みの日は、ゲームをしたり、DJを聴いたりプレイしたりして楽しんでいます。",
     ],
-    careerLead: "設計から、日々の運用まで。",
-    careerIntro:
-      "技術で、仕事の進め方やつくり方を少しずつ良くしていきたい。生成AIを軸に、実装から運用まで、現場に寄り添ったものづくりをしています。",
     currentBody:
-      "業務への生成AIの導入支援や、AIを活用した開発フローの設計・実装に取り組んでいます。日々の業務が少しでも楽になり、創造的な仕事に集中できる環境づくりを目指しています。",
+      "日々、AIの最新情報を取り入れ、業務の生産性向上、プロダクトの可能性を広げる開発に取り組んでいます",
     pastBody:
-      "使いやすく、長く使えるプロダクトを。UI設計から実装・改善まで、フロントエンドを中心に取り組んできました。",
+      "Next.jsを中心にゼロイチでの開発を得意とし、優れたUI/UX、パフォーマンスに優れた開発に取り組んできました",
     now: "現在",
     past: "これまで",
-    currentRole: "生成AIの導入支援・AI駆動開発",
+    beforeEngineering: "エンジニア転向前",
+    qaRole: "QA・チームリーダー",
+    qaBody:
+      "大手ゲーム・エンターテインメント企業で、3年間の品質管理業務を経験。そのうち2年間は、リーダー／マネージャーを担当しました。",
+    currentRole: "AI Enablement Engineer（生成AI導入支援・AI駆動開発推進）",
     pastRole: "フロントエンド開発",
     careerMore: "経歴を詳しく",
     sampleCareer: "期間・案件・実績は後日掲載します。",
@@ -29,9 +29,11 @@ export const copy = {
     backWriting: "記事一覧へ",
     backHome: "トップへ",
     read: "記事を読む",
-    musicLead: "音楽制作物です。よかったら聞いていってください",
-    trackNote: "動作確認用のサンプル音源",
-    artNote: "アートワーク・音源は仮素材",
+    musicLead:
+      "AIを使って制作した楽曲の紹介です。よかったら聴いていってください",
+    trackList: "トラックリスト",
+    seasonalSpecial: "季節限定スペシャル",
+    selectTrack: "選択して再生",
     play: "再生",
     pause: "一時停止",
     seek: "再生位置",
@@ -41,7 +43,7 @@ export const copy = {
     audioError: "音源を再生できませんでした。もう一度お試しください。",
     playing: "再生中",
     paused: "一時停止中",
-    contactLead: "お気軽に連絡お待ちしております。",
+    contactLead: "お気軽にご連絡ください",
     copyEmail: "メールアドレスをコピー",
     copied: "コピーしました",
     copyFailed:
@@ -69,18 +71,19 @@ export const copy = {
     aboutBody: [
       "Currently based in Tokyo, I help companies adopt generative AI and move to AI-driven development.",
       "I started out as an engineer specializing in frontend development, building and improving user interfaces and user experiences. As AI has advanced in recent years, my work has shifted toward helping teams establish systems for personal knowledge bases and AI agents, and introducing practices that reduce people's cognitive load.",
-      "On my days off, I enjoy gaming, listening to DJ sets, and DJing myself.",
     ],
-    careerLead: "From design to everyday operations.",
-    careerIntro:
-      "Making the way we work and build a little better through technology. With generative AI at the center, I work closely with teams from implementation to everyday operations.",
     currentBody:
-      "I help teams adopt generative AI and design and implement AI-assisted development workflows, making daily work easier and creating more room for creative work.",
+      "I keep up with the latest developments in AI and apply them to improve productivity and expand what products can do.",
     pastBody:
-      "Building intuitive products that last. My work has centered on frontend engineering, from UI design to implementation and continuous improvement.",
+      "I specialize in building products from the ground up with Next.js, focusing on excellent UI/UX and high performance.",
     now: "Now",
     past: "Previously",
-    currentRole: "AI adoption & AI-driven development",
+    beforeEngineering: "Before engineering",
+    qaRole: "QA / Team Leader",
+    qaBody:
+      "Spent three years in quality control at a major gaming and entertainment company, including two years as a team leader / manager.",
+    currentRole:
+      "AI Enablement Engineer (Generative AI adoption & AI-driven development)",
     pastRole: "Frontend development",
     careerMore: "Explore my experience",
     sampleCareer: "Dates, projects and experience will be added later.",
@@ -93,8 +96,9 @@ export const copy = {
     backHome: "Back home",
     read: "Read article",
     musicLead: "Music I’ve made. Stay a while and have a listen.",
-    trackNote: "Sample audio for testing",
-    artNote: "Placeholder artwork and audio",
+    trackList: "Track list",
+    seasonalSpecial: "Seasonal special",
+    selectTrack: "Select and play",
     play: "Play",
     pause: "Pause",
     seek: "Playback position",

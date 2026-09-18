@@ -29,13 +29,29 @@ pnpm dev
 | 内容 | 変更場所 |
 | --- | --- |
 | 日英の短い文言 | `src/features/content/copy.ts` |
-| 記事タイトル・本文・固定slug | `src/features/content/data.ts` |
-| 公開メールアドレス | 同ファイルの `contactEmail`。未設定では例示アドレスと無効なGmailボタンを表示 |
+| Blog記事 | `content/blog/<locale>/<slug>.md` |
+| 公開メールアドレス | `src/features/content/data.ts` の `contactEmail`。未設定では例示アドレスと無効なGmailボタンを表示 |
 | 音源 | 同ファイルの `previewTrack`。現在は `public/audio/preview.wav` の合成テスト音 |
 | About画像 | `public/images/about.png` を暫定利用 |
 | 経歴の詳細 | `src/features/career/Timeline.tsx` と `src/app/[locale]/career/page.tsx` |
 
-本番記事の入稿・翻訳運用は後から決定します。記事ページはサンプルの間だけ `noindex` を指定しています。本番原稿の確定時にサンプル注記と一緒に見直してください。音源は220Hz・277.18Hz・329.63Hzの小音量サイン波を重ねた24秒の動作確認用で、本人の作品ではありません。
+Blog記事のファイル名がURLのslugになります。日本語は `content/blog/ja/`、英語は `content/blog/en/` に同じslugで置きます。記事の先頭には次のfront matterを記載します。
+
+```md
+---
+title: "記事タイトル"
+description: "一覧と記事冒頭に表示する概要"
+order: 1
+draft: true
+publishedAt: "2026-09-18"
+---
+
+## 最初の見出し
+```
+
+`order`は一覧の表示順です。`draft: true`の記事も画面には表示されますが、検索エンジンには`noindex`を返します。原稿が完成したら`draft: false`に変更してください。`publishedAt`は省略できます。
+
+音源は本人の制作物を使用しています。
 
 ## 検証
 

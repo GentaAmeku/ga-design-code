@@ -9,7 +9,7 @@ const home = await fetch(origin, { redirect: "manual" });
 assert.equal(home.status, 307);
 assert.equal(new URL(home.headers.get("location"), origin).pathname, "/ja");
 for (const locale of ["ja", "en"]) {
-  for (const path of ["", "/career", "/writing", "/writing/creating-with-ai"]) {
+  for (const path of ["", "/career", "/blog", "/blog/ai-driven-workflow"]) {
     const response = await fetch(`${origin}/${locale}${path}`);
     assert.equal(response.status, 200, `${locale}${path}`);
     const html = await response.text();
@@ -22,7 +22,7 @@ for (const locale of ["ja", "en"]) {
         "about",
         "career",
         "skills",
-        "writing",
+        "blog",
         "music",
         "contact",
       ])
@@ -30,25 +30,42 @@ for (const locale of ["ja", "en"]) {
       assert.ok(
         html.includes(
           locale === "ja"
-            ? "音楽制作物です。よかったら聞いていってください"
+            ? "AIを使って制作した楽曲の紹介です。よかったら聴いていってください"
             : "Music I’ve made. Stay a while and have a listen.",
         ),
       );
     }
-    if (path.includes("creating-with-ai")) assert.match(html, /noindex/);
+    if (path.includes("ai-driven-workflow")) {
+      assert.match(html, /noindex/);
+      assert.ok(
+        html.includes(
+          locale === "ja"
+            ? "日々の仕事で感じていた負担"
+            : "The everyday workload I wanted to reduce",
+        ),
+      );
+    }
   }
 }
-for (const path of ["/preview", "/fr", "/ja/writing/not-an-article"]) {
+for (const path of ["/preview", "/fr", "/ja/blog/not-an-article"]) {
   const response = await fetch(origin + path);
   assert.equal(response.status, 404, path);
 }
-const audio = await fetch(`${origin}/audio/preview.wav`, {
-  headers: { Range: "bytes=0-43" },
-});
-assert.equal(audio.status, 206);
-const bytes = Buffer.from(await audio.arrayBuffer());
-assert.equal(bytes.toString("ascii", 0, 4), "RIFF");
-assert.equal(bytes.toString("ascii", 8, 12), "WAVE");
+for (const track of [
+  "fairies-on-the-line",
+  "welcome-to-the-orendel",
+  "amber-hour",
+  "summer-timer",
+]) {
+  const audio = await fetch(`${origin}/audio/${track}.mp3`, {
+    headers: { Range: "bytes=0-3" },
+  });
+  assert.equal(audio.status, 206, track);
+  const bytes = Buffer.from(await audio.arrayBuffer());
+  assert.equal(bytes.toString("ascii", 0, 3), "ID3", track);
+  const artwork = await fetch(`${origin}/images/music/${track}.jpeg`);
+  assert.equal(artwork.status, 200, track);
+}
 console.log(
   "PASS: locale redirects, 8 localized pages, 3 missing routes, no forms, audio range delivery",
 );

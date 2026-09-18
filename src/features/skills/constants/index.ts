@@ -10,6 +10,7 @@ import GhosttyIcon from "@/components/Icons/GhosttyIcon";
 import GrokIcon from "@/components/Icons/GrokIcon";
 import HermesAgentIcon from "@/components/Icons/HermesAgentIcon";
 import NextjsIcon from "@/components/Icons/NextjsIcon";
+import OpenCodeIcon from "@/components/Icons/OpenCodeIcon";
 import OrcaIcon from "@/components/Icons/OrcaIcon";
 import RaycastIcon from "@/components/Icons/RaycastIcon";
 import SketchIcon from "@/components/Icons/SketchIcon";
@@ -38,6 +39,7 @@ export const TOOLS: SkillItem[] = [
 
 export const AI: SkillItem[] = [
   { icon: ClaudeIcon, title: "Claude", rank: "gold" },
+  { icon: OpenCodeIcon, title: "OpenCode", rank: "gold" },
   { icon: CodexIcon, title: "Codex", rank: "gold" },
   { icon: GeminiIcon, title: "Gemini", rank: "gold" },
   { icon: GrokIcon, title: "Grok", rank: "gold" },

@@ -15,7 +15,7 @@ _避ける_: ブロック、ページ、エリア
 _避ける_: レイアウト、グリッド
 
 **下層ページ**:
-トップページ以外のページ。`/[locale]/career`、`/[locale]/writing`、`/[locale]/writing/[slug]`。骨格はトップページと共有しない。
+トップページ以外のページ。`/[locale]/career`、`/[locale]/blog`、`/[locale]/blog/[slug]`。骨格はトップページと共有しない。
 
 ## 文字
 

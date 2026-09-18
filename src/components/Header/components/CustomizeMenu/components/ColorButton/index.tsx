@@ -35,19 +35,21 @@ const ColorButton = ({ themeColor }: ColorButtonProps) => {
       aria-pressed={theme === themeColor}
       variant="outline"
       onClick={handleColorButton}
-      size="sm"
+      size="default"
       className={cn(
-        "inline-flex justify-start",
+        "inline-flex w-full min-w-0 justify-start",
         getSelectedColorClass(themeColor, theme),
       )}
     >
       <span
         className={cn(
-          "flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full",
+          "flex h-5 w-5 shrink-0 items-center justify-center rounded-full",
           getColorClass(themeColor),
         )}
       />
-      {t.colors[themeColor]}
+      <span className="min-w-0 flex-1 truncate text-left">
+        {t.colors[themeColor]}
+      </span>
     </Button>
   );
 };

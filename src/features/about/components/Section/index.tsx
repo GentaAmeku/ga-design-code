@@ -9,7 +9,7 @@ export default function AboutSection({ locale }: { locale: Locale }) {
       <div className="about-content">
         <div className="about-image">
           <Image
-            src="/images/about.png"
+            src="/images/GentaAmeku.png"
             alt=""
             fill
             sizes="(max-width: 767px) 320px, 360px"

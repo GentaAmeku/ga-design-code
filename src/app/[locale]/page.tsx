@@ -35,25 +35,18 @@ export default async function Home({
       <AboutSection locale={locale} />
       <Section id="career">
         <div className="career-layout">
-          <div>
-            <SectionHeading title="Career" lead={t.careerLead} />
-            <p className="career-intro">{t.careerIntro}</p>
-            <Link className="text-link mt-8" href={`/${locale}/career`}>
-              {t.careerMore} <span aria-hidden="true">→</span>
-            </Link>
-          </div>
+          <SectionHeading title="Career" />
           <Timeline locale={locale} />
+          <Link className="text-link mt-8" href={`/${locale}/career`}>
+            {t.careerMore} <span aria-hidden="true">→</span>
+          </Link>
         </div>
       </Section>
       <SkillsSection />
-      <Section id="writing">
+      <Section id="blog">
         <SectionHeading title="Blog" lead={t.writingLead} marker={false} />
-        <p className="sample-note mb-3">{t.sample}</p>
         <FeaturedArticles locale={locale} />
-        <Link
-          className="text-link mt-8 all-articles"
-          href={`/${locale}/writing`}
-        >
+        <Link className="text-link mt-8 all-articles" href={`/${locale}/blog`}>
           {t.allArticles} <span aria-hidden="true">→</span>
         </Link>
       </Section>

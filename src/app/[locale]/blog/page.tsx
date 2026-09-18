@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import Section from "@/components/Section";
+import SectionHeading from "@/components/SectionHeading";
 import { pageMetadata } from "@/constants/metadata";
 import { copy } from "@/features/content/copy";
-import ArticleList from "@/features/writing/ArticleList";
+import FeaturedArticles from "@/features/writing/FeaturedArticles";
 import { isLocale } from "@/lib/locale";
 export async function generateMetadata({
   params,
@@ -11,9 +13,9 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-  return pageMetadata(locale, "/writing", "Blog | G.A Design & Code");
+  return pageMetadata(locale, "/blog", "Blog | G.A Design & Code");
 }
-export default async function Writing({
+export default async function Blog({
   params,
 }: {
   params: Promise<{ locale: string }>;
@@ -22,14 +24,12 @@ export default async function Writing({
   if (!isLocale(locale)) notFound();
   const t = copy[locale];
   return (
-    <div className="reading-page">
-      <Link className="text-link" href={`/${locale}#writing`}>
+    <Section id="blog">
+      <Link className="text-link" href={`/${locale}#blog`}>
         ← {t.backHome}
       </Link>
-      <h1>Blog</h1>
-      <p className="reading-lead">{t.writingLead}</p>
-      <p className="sample-note mb-4">{t.sample}</p>
-      <ArticleList locale={locale} />
-    </div>
+      <SectionHeading title="Blog" lead={t.writingLead} marker={false} />
+      <FeaturedArticles all locale={locale} />
+    </Section>
   );
 }
