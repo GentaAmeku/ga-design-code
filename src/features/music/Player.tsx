@@ -80,7 +80,7 @@ export default function Player() {
             src={player.track.artwork}
             alt={`${player.track.title} artwork`}
             fill
-            sizes="(max-width: 767px) 132px, 200px"
+            sizes="200px"
             className="object-cover"
             priority
           />
@@ -229,7 +229,7 @@ export default function Player() {
                     src={track.artwork}
                     alt=""
                     fill
-                    sizes="48px"
+                    sizes="64px"
                     className="object-cover"
                   />
                 </span>

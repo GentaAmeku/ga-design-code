@@ -12,7 +12,7 @@ export default function AboutSection({ locale }: { locale: Locale }) {
             src="/images/GentaAmeku.png"
             alt=""
             fill
-            sizes="(max-width: 767px) 320px, 360px"
+            sizes="(max-width: 767px) calc(100vw - 48px), 360px"
             className="object-cover"
           />
         </div>
