@@ -488,6 +488,17 @@ input[type="range"] {
   color: var(--muted-foreground);
   margin: 24px 0 64px;
 }
+.article-author {
+  margin: -40px 0 64px;
+  color: var(--muted-foreground);
+  font-size: 14px;
+  line-height: 1.7;
+}
+.article-author a {
+  color: var(--foreground);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
 .article-body {
   font-size: 18px;
   line-height: 2;
@@ -673,6 +684,10 @@ input[type="range"] {
   }
   .reading-lead {
     font-size: 16px;
+    margin-bottom: 44px;
+  }
+  .article-author {
+    margin-top: -28px;
     margin-bottom: 44px;
   }
   .article-body {

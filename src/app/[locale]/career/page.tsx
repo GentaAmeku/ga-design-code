@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { pageMetadata } from "@/constants/metadata";
+import { pageDescriptions, pageMetadata } from "@/constants/metadata";
 import { careerEntries } from "@/features/career/content";
 import { copy } from "@/features/content/copy";
 import { isLocale } from "@/lib/locale";
@@ -11,7 +11,12 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-  return pageMetadata(locale, "/career", "Career | G.A Design & Code");
+  return pageMetadata({
+    locale,
+    path: "/career",
+    title: "Career | G.A Design & Code",
+    description: pageDescriptions[locale].career,
+  });
 }
 export default async function Career({
   params,

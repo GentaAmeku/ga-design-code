@@ -1,10 +1,13 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { pageMetadata } from "@/constants/metadata";
+import { AUTHOR_NAME, DEFAULT_SOCIAL_IMAGE, SITE_NAME } from "@/constants/site";
 import { getArticle, getArticles } from "@/features/blog/content";
 import MarkdownArticle from "@/features/blog/MarkdownArticle";
+import { toBlogPosting } from "@/features/blog/toBlogPosting";
 import { copy } from "@/features/content/copy";
 import { isLocale, locales } from "@/lib/locale";
+import { serializeJsonLd } from "@/lib/serializeJsonLd";
 
 export async function generateStaticParams() {
   const articlesByLocale = await Promise.all(
@@ -28,13 +31,27 @@ export async function generateMetadata({
   if (!isLocale(locale)) notFound();
   const article = await getArticle(locale, slug);
   if (!article || article.draft) notFound();
+  const localizedArticles = await Promise.all(
+    locales.map((alternateLocale) => getArticle(alternateLocale, slug)),
+  );
+  const alternateLocales = localizedArticles.flatMap((localizedArticle) =>
+    localizedArticle && !localizedArticle.draft
+      ? [localizedArticle.locale]
+      : [],
+  );
+
   return {
-    ...pageMetadata(
+    ...pageMetadata({
       locale,
-      `/blog/${slug}`,
-      `${article.title} | G.A Design & Code`,
-    ),
-    description: article.description,
+      path: `/blog/${slug}`,
+      title: `${article.title} | ${SITE_NAME}`,
+      description: article.description,
+      type: "article",
+      images: [article.image ?? DEFAULT_SOCIAL_IMAGE],
+      alternateLocales,
+      publishedAt: article.publishedAt,
+      updatedAt: article.updatedAt,
+    }),
     robots: { index: !article.draft, follow: true },
   };
 }
@@ -53,8 +70,14 @@ export default async function Article({
   const fromHome = (await searchParams).from === "home";
   const backHref = fromHome ? `/${locale}#blog` : `/${locale}/blog`;
   const backLabel = fromHome ? t.backHome : t.backWriting;
+  const jsonLd = toBlogPosting(article);
   return (
     <article className="reading-page">
+      <script
+        type="application/ld+json"
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: The JSON-LD serializer escapes script-breaking characters.
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
+      />
       <Link className="text-link" href={backHref}>
         ← {backLabel}
       </Link>
@@ -72,6 +95,9 @@ export default async function Article({
       </p>
       <h1 className="article-title">{article.title}</h1>
       <p className="reading-lead">{article.description}</p>
+      <p className="article-author">
+        {t.author}: <Link href={`/${locale}#about`}>{AUTHOR_NAME}</Link>
+      </p>
       <MarkdownArticle content={article.content} />
       <Link className="text-link mt-16" href={backHref}>
         ← {backLabel}

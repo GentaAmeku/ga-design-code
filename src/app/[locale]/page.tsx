@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Section from "@/components/Section";
 import SectionHeading from "@/components/SectionHeading";
-import { pageMetadata } from "@/constants/metadata";
+import { pageDescriptions, pageMetadata } from "@/constants/metadata";
 import AboutSection from "@/features/about/components/Section";
 import Timeline from "@/features/career/Timeline";
 import ContactSection from "@/features/contact/components/Section";
@@ -19,7 +19,7 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-  return pageMetadata(locale, "", "G.A Design & Code");
+  return pageMetadata({ locale, description: pageDescriptions[locale].home });
 }
 export default async function Home({
   params,

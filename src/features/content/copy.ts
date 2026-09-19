@@ -28,6 +28,7 @@ export const copy = {
     read: "記事を読む",
     createdAt: "作成日",
     updatedAt: "最終更新日",
+    author: "著者",
     musicLead:
       "AIを使って制作した楽曲の紹介です。よかったら聴いていってください",
     trackList: "トラックリスト",
@@ -93,6 +94,7 @@ export const copy = {
     read: "Read article",
     createdAt: "Created",
     updatedAt: "Last updated",
+    author: "Author",
     musicLead: "Music I’ve made. Stay a while and have a listen.",
     trackList: "Track list",
     seasonalSpecial: "Seasonal special",

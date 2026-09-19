@@ -5,6 +5,7 @@ order: 1
 draft: false
 createdAt: "2026-09-18"
 updatedAt: "2026-09-18"
+image: "/images/ai-driven-workflow.png"
 ---
 
 ## はじめに
