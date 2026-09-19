@@ -9,7 +9,19 @@ import type { Locale } from "@/lib/locale";
 
 const blogRoot = path.join(process.cwd(), "content", "blog");
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
-const dateSchema = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
+const dateSchema = z
+  .string()
+  .regex(/^\d{4}-\d{2}-\d{2}$/)
+  .refine((value) => {
+    const [year, month, day] = value.split("-").map(Number);
+    const date = new Date(Date.UTC(year, month - 1, day));
+
+    return (
+      date.getUTCFullYear() === year &&
+      date.getUTCMonth() === month - 1 &&
+      date.getUTCDate() === day
+    );
+  }, "Date must be a real calendar date");
 
 const frontMatterSchema = z.object({
   title: z.string().trim().min(1),
@@ -17,7 +29,12 @@ const frontMatterSchema = z.object({
   order: z.number().int().nonnegative().default(999),
   draft: z.boolean().default(true),
   createdAt: dateSchema,
+  publishedAt: dateSchema.optional(),
   updatedAt: dateSchema.optional(),
+  image: z
+    .string()
+    .regex(/^\/(?!\/)/)
+    .optional(),
 });
 
 export type BlogArticle = z.infer<typeof frontMatterSchema> & {

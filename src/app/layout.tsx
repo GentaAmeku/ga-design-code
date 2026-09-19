@@ -4,12 +4,13 @@ import { headers } from "next/headers";
 import type { ReactNode } from "react";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import { SITE_NAME, SITE_ORIGIN } from "@/constants/site";
 import AudioProvider from "@/features/music/AudioProvider";
 import ThemeProvider from "@/stores/ThemeProvider";
 import "@/styles/global.css";
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.genta-ameku.com"),
-  title: "G.A Design & Code",
+  metadataBase: new URL(SITE_ORIGIN),
+  title: SITE_NAME,
 };
 export default async function RootLayout({
   children,

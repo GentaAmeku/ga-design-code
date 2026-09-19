@@ -8,6 +8,46 @@ assert.ok(
 const home = await fetch(origin, { redirect: "manual" });
 assert.equal(home.status, 307);
 assert.equal(new URL(home.headers.get("location"), origin).pathname, "/ja");
+
+const seoFiles = await Promise.all(
+  ["/robots.txt", "/sitemap.xml", "/llms.txt"].map(async (path) => {
+    const response = await fetch(origin + path, { redirect: "manual" });
+    assert.equal(response.status, 200, path);
+    assert.equal(response.headers.get("location"), null, `${path} redirect`);
+    return [path, response.headers.get("content-type"), await response.text()];
+  }),
+);
+const seoContent = Object.fromEntries(
+  seoFiles.map(([path, _contentType, content]) => [path, content]),
+);
+const seoContentTypes = Object.fromEntries(
+  seoFiles.map(([path, contentType]) => [path, contentType]),
+);
+assert.match(seoContentTypes["/robots.txt"], /^text\/plain/);
+assert.match(seoContentTypes["/sitemap.xml"], /^application\/xml/);
+assert.match(seoContentTypes["/llms.txt"], /^text\/plain; charset=utf-8/);
+assert.match(
+  seoContent["/robots.txt"],
+  /Sitemap: https:\/\/www\.genta-ameku\.com\/sitemap\.xml/,
+);
+
+for (const locale of ["ja", "en"]) {
+  for (const path of ["", "/career", "/blog", "/blog/ai-driven-workflow"]) {
+    const url = `https://www.genta-ameku.com/${locale}${path}`;
+    assert.ok(seoContent["/sitemap.xml"].includes(`<loc>${url}</loc>`), url);
+  }
+  assert.ok(
+    seoContent["/llms.txt"].includes(
+      `https://www.genta-ameku.com/${locale}/blog/ai-driven-workflow`,
+    ),
+    `${locale} article in llms.txt`,
+  );
+}
+for (const draft of ["ai-deck-studio", "ai-animation-with-dreamina"]) {
+  assert.doesNotMatch(seoContent["/sitemap.xml"], new RegExp(draft));
+  assert.doesNotMatch(seoContent["/llms.txt"], new RegExp(draft));
+}
+assert.doesNotMatch(seoContent["/sitemap.xml"], /<loc>[^<]*\?/);
 for (const locale of ["ja", "en"]) {
   for (const path of ["", "/career", "/blog", "/blog/ai-driven-workflow"]) {
     const response = await fetch(`${origin}/${locale}${path}`);
@@ -49,6 +89,16 @@ for (const locale of ["ja", "en"]) {
     }
     if (path.includes("ai-driven-workflow")) {
       assert.doesNotMatch(html, /noindex/);
+      assert.match(html, /<meta property="og:type" content="article"\/>/);
+      assert.match(
+        html,
+        new RegExp(
+          `<link rel="canonical" href="https://www\\.genta-ameku\\.com/${locale}/blog/ai-driven-workflow"`,
+        ),
+      );
+      assert.match(html, /<meta name="author" content="Genta Ameku"\/>/);
+      assert.ok(html.includes(locale === "ja" ? "著者" : "Author"));
+      assert.ok(html.includes(`<a href="/${locale}#about">Genta Ameku</a>`));
       assert.ok(html.includes(locale === "ja" ? "作成日" : "Created"));
       assert.ok(html.includes(locale === "ja" ? "最終更新日" : "Last updated"));
       assert.ok(
@@ -57,6 +107,20 @@ for (const locale of ["ja", "en"]) {
             ? "日々の仕事で感じていた負担"
             : "The burden of managing daily work",
         ),
+      );
+      const jsonLdSource = html.match(
+        /<script type="application\/ld\+json">([^<]+)<\/script>/,
+      )?.[1];
+      assert.ok(jsonLdSource, `${locale} JSON-LD`);
+      const jsonLd = JSON.parse(jsonLdSource);
+      assert.equal(jsonLd["@type"], "BlogPosting");
+      assert.equal(jsonLd.author.name, "Genta Ameku");
+      assert.equal(jsonLd.inLanguage, locale);
+      assert.equal(jsonLd.dateModified, "2026-09-18");
+      assert.equal("datePublished" in jsonLd, false);
+      assert.equal(
+        jsonLd.url,
+        `https://www.genta-ameku.com/${locale}/blog/ai-driven-workflow`,
       );
     }
   }
@@ -89,5 +153,5 @@ for (const track of [
   assert.equal(artwork.status, 200, track);
 }
 console.log(
-  "PASS: locale redirects, 8 localized pages, 7 missing or draft routes, no forms, audio range delivery",
+  "PASS: SEO files, metadata, JSON-LD, locale redirects, 8 localized pages, 7 missing or draft routes, no forms, audio range delivery",
 );
