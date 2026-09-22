@@ -668,6 +668,20 @@ input[type="range"] {
     gap: 12px;
     margin-top: 16px;
   }
+  .lyrics-volume-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  .lyrics-volume-row .lyrics,
+  .lyrics-volume-row .track-intro {
+    flex: none;
+    width: 100%;
+  }
+  .volume-controls input {
+    flex: 1;
+    min-width: 0;
+  }
   .contact-address {
     gap: 0;
   }
