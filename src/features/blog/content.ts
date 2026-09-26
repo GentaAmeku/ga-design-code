@@ -45,6 +45,11 @@ export type BlogArticle = z.infer<typeof frontMatterSchema> & {
 
 export type BlogArticleSummary = Omit<BlogArticle, "content">;
 
+// 一覧の日付。公開日があればそれ、無ければ作成日。新しいものを上に並べる
+export const publishedOn = (
+  article: Pick<BlogArticle, "publishedAt" | "createdAt">,
+): string => article.publishedAt ?? article.createdAt;
+
 const articlePath = (locale: Locale, slug: string) =>
   path.join(blogRoot, locale, `${slug}.md`);
 
@@ -124,7 +129,9 @@ export const getArticles = cache(
         .filter((article) => !article.draft)
         .sort(
           (left, right) =>
-            left.order - right.order || left.slug.localeCompare(right.slug),
+            publishedOn(right).localeCompare(publishedOn(left)) ||
+            left.order - right.order ||
+            left.slug.localeCompare(right.slug),
         );
     } catch (error) {
       if (

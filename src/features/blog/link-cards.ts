@@ -111,9 +111,8 @@ export const getLinkCards = cache(
     const cards = await Promise.all(
       extractBareUrls(content).map(fetchLinkCard),
     );
-    return cards.reduce<LinkCards>(
-      (all, card) => (card ? { ...all, [card.url]: card } : all),
-      {},
+    return Object.fromEntries(
+      cards.flatMap((card) => (card ? [[card.url, card]] : [])),
     );
   },
 );

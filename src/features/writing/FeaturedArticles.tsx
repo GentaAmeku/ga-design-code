@@ -1,8 +1,11 @@
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { getArticles } from "@/features/blog/content";
+import { getArticles, publishedOn } from "@/features/blog/content";
 import { copy } from "@/features/content/copy";
 import type { Locale } from "@/lib/locale";
+
+// トップに出す記事の上限。一覧ページ(all)は全件
+const HOME_ARTICLE_LIMIT = 3;
 
 export default async function FeaturedArticles({
   locale,
@@ -12,14 +15,14 @@ export default async function FeaturedArticles({
   all?: boolean;
 }) {
   const articles = await getArticles(locale);
-  const items = all ? [...articles] : articles.slice(0, 2);
+  const items = all ? articles : articles.slice(0, HOME_ARTICLE_LIMIT);
   return (
     <ul className="featured-articles">
       {items.map((article) => (
         <li key={article.slug}>
           <div>
-            <time className="article-date" dateTime={article.createdAt}>
-              {article.createdAt}
+            <time className="article-date" dateTime={publishedOn(article)}>
+              {publishedOn(article)}
             </time>
             <h3>{article.title}</h3>
             <p>{article.description}</p>
