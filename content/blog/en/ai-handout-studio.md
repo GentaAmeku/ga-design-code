@@ -4,7 +4,7 @@ description: "AI Handout Studio is a local app that keeps the slides, HTML docum
 order: 2
 draft: true
 createdAt: "2026-09-26"
-image: "/images/ai-handout-studio/doc-list.en.jpg"
+image: "/images/ai-handout-studio/og.en.jpg"
 ---
 
 ## Introduction

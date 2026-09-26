@@ -4,7 +4,7 @@ description: "AIエージェントが作るスライド・HTML資料・質問票
 order: 2
 draft: true
 createdAt: "2026-09-26"
-image: "/images/ai-handout-studio/doc-list.jpg"
+image: "/images/ai-handout-studio/og.jpg"
 ---
 
 <!-- Zenn 側のタイトルは一覧で切れないよう、前半だけ(「AI が作った資料に「置き場」を用意する」)にする案。転載時は冒頭に原文 URL を1行書く。 -->
@@ -75,7 +75,7 @@ AI が書くのは JSON 1ファイルだけ。文章と構造だけを持ち、�
 
 ### 似たツールとの違い
 
-AI に JSON を書かせてアプリが描く発想は、[Presenton](https://github.com/presenton/presenton) や AWS の [Spec-Driven Presentation Maker](https://zenn.dev/aws_japan/articles/sdpm-technical-overview) にもある。違いは、どのフォルダの会話からでもエージェントが直接保存すること、スライド・HTML 資料・質問票を同じ置き場で扱うこと、そして人が仕上げる画面を省かないことの3点。Marp や PPTX Skill との違いは、中間物が Markdown や HTML ではなく、見た目の語彙を持たない JSON であることだ。
+AI に JSON を書かせてアプリが描く発想は、[Presenton](https://github.com/presenton/presenton) や AWS の [Spec-Driven Presentation Maker](https://zenn.dev/aws_japan/articles/sdpm-technical-overview) にもある。違いは、どのフォルダの会話からでもエージェントが直接保存すること、スライド・HTML 資料・質問票を同じ置き場で扱うこと、そして人が仕上げる画面を省かないことの3点。Marp や PPTX Skill との違いは、中間物が Markdown や HTML ではなく、見た目の語彙を持たない JSON であること。
 
 ## スライド資料
 スライドも同じで、AI が作ったあとにテンプレートの変更、レイアウトの微調整、テキストの変更やパーツの配置を画面で行える。書き出しは PNG・HTML・PPTX・PDF に対応している。
