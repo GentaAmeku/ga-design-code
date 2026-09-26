@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { pageMetadata } from "@/constants/metadata";
 import { AUTHOR_NAME, DEFAULT_SOCIAL_IMAGE, SITE_NAME } from "@/constants/site";
 import { getArticle, getArticles } from "@/features/blog/content";
+import { getLinkCards } from "@/features/blog/link-cards";
 import MarkdownArticle from "@/features/blog/MarkdownArticle";
 import { toBlogPosting } from "@/features/blog/toBlogPosting";
 import { copy } from "@/features/content/copy";
@@ -71,6 +72,7 @@ export default async function Article({
   const backHref = fromHome ? `/${locale}#blog` : `/${locale}/blog`;
   const backLabel = fromHome ? t.backHome : t.backWriting;
   const jsonLd = toBlogPosting(article);
+  const linkCards = await getLinkCards(article.content);
   return (
     <article className="reading-page">
       <script
@@ -98,7 +100,7 @@ export default async function Article({
       <p className="article-author">
         {t.author}: <Link href={`/${locale}#about`}>{AUTHOR_NAME}</Link>
       </p>
-      <MarkdownArticle content={article.content} />
+      <MarkdownArticle content={article.content} linkCards={linkCards} />
       <Link className="text-link mt-16" href={backHref}>
         ← {backLabel}
       </Link>
