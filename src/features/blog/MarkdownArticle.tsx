@@ -35,7 +35,9 @@ export default function MarkdownArticle({
 }: MarkdownArticleProps) {
   return (
     <div className="article-body">
+      {/* 本文の HTML は書き手向けのコメントだけなので、描画しない */}
       <ReactMarkdown
+        skipHtml
         remarkPlugins={[remarkGfm]}
         components={componentsFor(linkCards)}
       >

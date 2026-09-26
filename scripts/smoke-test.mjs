@@ -77,14 +77,14 @@ for (const locale of ["ja", "en"]) {
       assert.ok(html.includes("2026-09-18"));
       assert.doesNotMatch(
         html,
-        /AIが作る資料に|Why AI-generated decks need|1枚のキャラクター資料|From one character sheet/,
+        /AIが作る資料に|Why AI-generated decks need|日本のアニメらしい映像|Japanese-anime-style video/,
       );
     }
     if (path === "/blog") {
       assert.ok(html.includes("2026-09-18"));
       assert.doesNotMatch(
         html,
-        /AIが作る資料に|Why AI-generated decks need|1枚のキャラクター資料|From one character sheet/,
+        /AIが作る資料に|Why AI-generated decks need|日本のアニメらしい映像|Japanese-anime-style video/,
       );
     }
     if (path.includes("ai-driven-workflow")) {
@@ -124,6 +124,13 @@ for (const locale of ["ja", "en"]) {
       );
     }
   }
+}
+// 書き手向けの HTML コメントを本文に出さない
+for (const locale of ["ja", "en"]) {
+  const html = await (
+    await fetch(`${origin}/${locale}/blog/ai-handout-studio`)
+  ).text();
+  assert.doesNotMatch(html, /&lt;!--/, `${locale} article comment`);
 }
 for (const path of [
   "/preview",
