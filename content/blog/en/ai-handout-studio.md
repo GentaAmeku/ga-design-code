@@ -2,8 +2,10 @@
 title: "Give AI-made handouts a place to live: receive them as JSON, finish them in the browser"
 description: "AI Handout Studio is a local app that keeps the slides, HTML documents and question sheets an AI agent writes in one place, takes them in as JSON with templates, and lets a person finish and hand them out from the browser. How it is designed and why."
 order: 2
-draft: true
+draft: false
 createdAt: "2026-09-26"
+publishedAt: "2026-09-26"
+updatedAt: "2026-09-26"
 image: "/images/ai-handout-studio/og.en.jpg"
 ---
 

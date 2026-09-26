@@ -2,8 +2,10 @@
 title: "AI が作った資料に「置き場」を用意する、JSON で受け取り、ブラウザで仕上げる仕組みを作る"
 description: "AIエージェントが作るスライド・HTML資料・質問票を1か所に集め、JSONの契約とテンプレートで受け取り、人がブラウザで仕上げて配るローカルアプリ AI Handout Studio の設計と開発の進め方を紹介します。"
 order: 2
-draft: true
+draft: false
 createdAt: "2026-09-26"
+publishedAt: "2026-09-26"
+updatedAt: "2026-09-26"
 image: "/images/ai-handout-studio/og.jpg"
 ---
 
