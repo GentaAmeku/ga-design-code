@@ -48,13 +48,22 @@ Images live in public/images/ai-handout-studio/ (English UI shots end in .en).
 
 *The agent asks before it writes. You answer with suggested options and a comparison table in view.*
 
-<!-- Not shot yet: the same sheet at phone width in English. The Japanese article uses sheet-phone.png; reuse it here or take an English one. -->
+<!-- Three lines here; the full story is in the "Question sheets" chapter below. -->
 
 ## How it fits together
 
 ![Architecture: the agent reads the skill, the CLI saves JSON, the local server applies template CSS and handles rendering, editing and export](/images/ai-handout-studio/overview.en.png)
 
 *The AI writes only JSON. The app owns the look, the editing and the export.*
+
+## How it differs from similar tools
+
+<!--
+No image. One table: name / what the AI writes / who renders / editing UI / question sheets.
+Rows: Presenton (JSON to HTML templates, drag editing, slides only), AWS SDPM (JSON to PPTX, warnings returned to the agent, no UI), Claude Code + Marp (Markdown, no UI), PPTX Skill (HTML to PPTX), AI Handout Studio.
+Four differences: agent-first from any folder; slides + HTML documents + question sheets; tokens to CSS with hard-coded colors rejected at build; PPTX rebuilt from DOM coordinates.
+One sentence noting Vercel's json-render (Jan 2026) makes the same argument: constrain the LLM to JSON over a component catalog instead of letting it write code.
+-->
 
 ## Three design decisions
 
@@ -79,6 +88,40 @@ Images live in public/images/ai-handout-studio/ (English UI shots end in .en).
 *Select, move, resize, insert, delete and edit text: a person does this on screen.*
 
 <!-- Not shot yet: the overflow check showing a warning. Needs a deck with deliberately long text. -->
+
+## Question sheets: the agent asks before it writes
+
+<!-- The article's second lead. Order: why ask at all (a handout built on guesses is the most expensive to fix) -> where AskUserQuestion fell short -> the JSON -> how answers come back -> phone -> kept as a record. -->
+
+### Where AskUserQuestion fell short
+
+<!-- No image. Claude Code's AskUserQuestion is fast for one question at a time, but too narrow for six questions with comparison tables, figures and reasons. I wanted the same thing in Codex too. State the rule: one or two quick answers go through chat or AskUserQuestion; anything that needs reading side by side goes to a sheet. -->
+
+### Questions are JSON, the look is a template
+
+![An answered question sheet: comparison table and an info notice under the text, options and the answer field below](/images/ai-handout-studio/sheet-answered.png)
+
+*Each question carries what to compare. Tables, figures and notices sit under the text; the answer field below them.*
+
+<!-- Code block: one question from questions.json (title / summary / detail / options / recommended / visual.comparison). The page adds the "(recommended)" mark from the recommended field. -->
+
+### Answers come back as Markdown you paste into the chat
+
+![The last question, with a "Copy answers" button where "Next" used to be](/images/ai-handout-studio/sheet-copy.png)
+
+*When you finish, "Copy answers" appears. Paste the Markdown into the chat and the agent carries on.*
+
+<!-- Why there is no answer server: one URL, no process to babysit, the handout list becomes the record. Note that Thariq Shihipar's post "The Unreasonable Effectiveness of HTML" (2026-05-20) recommends ending a custom UI with a "copy as prompt" button; same pattern. Do not claim who was first. -->
+
+### Answer from your phone
+
+![The same sheet at phone width](/images/ai-handout-studio/sheet-phone.png)
+
+*Open it from a phone on the same Wi-Fi, answer away from the desk, paste when you are back.*
+
+### Answers are kept with the sheet
+
+<!-- No image. Pasted answers are archived with `sheet answers`, so reopening the sheet shows what was decided. The decisions in this very article were made on a sheet. -->
 
 ## The agent talks to it through a skill and a CLI
 
