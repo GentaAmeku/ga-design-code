@@ -576,6 +576,13 @@ input[type="range"] {
   margin-inline: auto;
   border-radius: 8px;
 }
+.article-body .article-video {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  background: #000;
+}
 .article-body .link-card {
   display: flex;
   align-items: stretch;

@@ -3,6 +3,7 @@ import ReactMarkdown, {
   type ExtraProps,
 } from "react-markdown";
 import remarkGfm from "remark-gfm";
+import ArticleVideo, { isVideoSrc } from "@/features/blog/ArticleVideo";
 import LinkCard from "@/features/blog/LinkCard";
 import type { LinkCards } from "@/features/blog/link-cards";
 
@@ -27,6 +28,13 @@ const componentsFor = (linkCards: LinkCards): Components => ({
     const card = href ? linkCards[href] : undefined;
     return card ? <LinkCard card={card} /> : <p {...props}>{children}</p>;
   },
+  img: ({ node: _node, src, alt, title, ...props }) =>
+    isVideoSrc(src) ? (
+      <ArticleVideo src={src} label={alt} loop={title === "loop"} />
+    ) : (
+      // biome-ignore lint/performance/noImgElement: Markdown images keep their own size and path.
+      <img src={src} alt={alt} title={title} {...props} />
+    ),
 });
 
 export default function MarkdownArticle({
