@@ -4,6 +4,7 @@ import BackLink from "@/components/BackLink";
 import { pageMetadata } from "@/constants/metadata";
 import { AUTHOR_NAME, DEFAULT_SOCIAL_IMAGE, SITE_NAME } from "@/constants/site";
 import { getArticle, getArticles } from "@/features/blog/content";
+import { getImageSizes } from "@/features/blog/image-sizes";
 import { getLinkCards } from "@/features/blog/link-cards";
 import MarkdownArticle from "@/features/blog/MarkdownArticle";
 import { toBlogPosting } from "@/features/blog/toBlogPosting";
@@ -71,7 +72,10 @@ export default async function Article({
   if (!article || article.draft) notFound();
   const t = copy[locale];
   const jsonLd = toBlogPosting(article);
-  const linkCards = await getLinkCards(article.content);
+  const [linkCards, imageSizes] = await Promise.all([
+    getLinkCards(article.content),
+    getImageSizes(article.content),
+  ]);
   return (
     <article className="reading-page">
       <script
@@ -97,7 +101,11 @@ export default async function Article({
       <p className="article-author">
         {t.author}: <Link href={`/${locale}#about`}>{AUTHOR_NAME}</Link>
       </p>
-      <MarkdownArticle content={article.content} linkCards={linkCards} />
+      <MarkdownArticle
+        content={article.content}
+        linkCards={linkCards}
+        imageSizes={imageSizes}
+      />
       <BackLink className="text-link mt-16" locale={locale} />
     </article>
   );
