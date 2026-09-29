@@ -2,7 +2,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Section from "@/components/Section";
 import SectionHeading from "@/components/SectionHeading";
-import { pageDescriptions, pageMetadata } from "@/constants/metadata";
+import {
+  homeTitles,
+  pageDescriptions,
+  pageMetadata,
+} from "@/constants/metadata";
+import { homeStructuredData } from "@/constants/structured-data";
 import AboutSection from "@/features/about/components/Section";
 import Timeline from "@/features/career/Timeline";
 import ContactSection from "@/features/contact/components/Section";
@@ -12,6 +17,7 @@ import Player from "@/features/music/Player";
 import SkillsSection from "@/features/skills/components/Section";
 import FeaturedArticles from "@/features/writing/FeaturedArticles";
 import { isLocale } from "@/lib/locale";
+import { serializeJsonLd } from "@/lib/serializeJsonLd";
 export async function generateMetadata({
   params,
 }: {
@@ -19,7 +25,11 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-  return pageMetadata({ locale, description: pageDescriptions[locale].home });
+  return pageMetadata({
+    locale,
+    title: homeTitles[locale],
+    description: pageDescriptions[locale].home,
+  });
 }
 export default async function Home({
   params,
@@ -31,6 +41,15 @@ export default async function Home({
   const t = copy[locale];
   return (
     <>
+      <script
+        type="application/ld+json"
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: The JSON-LD serializer escapes script-breaking characters.
+        dangerouslySetInnerHTML={{
+          __html: serializeJsonLd(
+            homeStructuredData(locale, homeTitles[locale]),
+          ),
+        }}
+      />
       <LandingSection locale={locale} />
       <AboutSection locale={locale} />
       <Section id="career">

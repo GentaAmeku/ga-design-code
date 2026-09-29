@@ -1,5 +1,10 @@
 import { AUTHOR_NAME, DEFAULT_SOCIAL_IMAGE, siteUrl } from "@/constants/site";
-import type { BlogArticle } from "@/features/blog/content";
+import {
+  PERSON_ID,
+  personReference,
+  WEBSITE_ID,
+} from "@/constants/structured-data";
+import { type BlogArticle, publishedOn } from "@/features/blog/content";
 
 export const toBlogPosting = (article: BlogArticle) => {
   const url = siteUrl(`/${article.locale}/blog/${article.slug}`);
@@ -12,13 +17,11 @@ export const toBlogPosting = (article: BlogArticle) => {
     url,
     mainEntityOfPage: url,
     inLanguage: article.locale,
-    author: {
-      "@type": "Person",
-      name: AUTHOR_NAME,
-      url: siteUrl(`/${article.locale}#about`),
-    },
+    author: personReference(article.locale),
+    publisher: { "@type": "Person", "@id": PERSON_ID, name: AUTHOR_NAME },
+    isPartOf: { "@id": WEBSITE_ID },
     image: siteUrl(article.image ?? DEFAULT_SOCIAL_IMAGE),
-    ...(article.publishedAt ? { datePublished: article.publishedAt } : {}),
+    datePublished: publishedOn(article),
     ...(article.updatedAt ? { dateModified: article.updatedAt } : {}),
   };
 };

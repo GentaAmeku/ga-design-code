@@ -4,6 +4,7 @@ description: "会議の文字起こしから、AIエージェントに渡し、�
 order: 1
 draft: false
 createdAt: "2026-09-18"
+publishedAt: "2026-09-18"
 updatedAt: "2026-09-18"
 image: "/images/ai-driven-workflow.png"
 ---

@@ -1,14 +1,19 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import BackLink from "@/components/BackLink";
 import { pageMetadata } from "@/constants/metadata";
 import { AUTHOR_NAME, DEFAULT_SOCIAL_IMAGE, SITE_NAME } from "@/constants/site";
-import { getArticle, getArticles } from "@/features/blog/content";
+import { getArticle, getArticles, publishedOn } from "@/features/blog/content";
+import { getImageSizes } from "@/features/blog/image-sizes";
 import { getLinkCards } from "@/features/blog/link-cards";
 import MarkdownArticle from "@/features/blog/MarkdownArticle";
 import { toBlogPosting } from "@/features/blog/toBlogPosting";
 import { copy } from "@/features/content/copy";
 import { isLocale, locales } from "@/lib/locale";
 import { serializeJsonLd } from "@/lib/serializeJsonLd";
+
+// 公開済みの記事を静的に生成する。無い slug や下書きは、その言語の 404 になる
+export const dynamicParams = true;
 
 export async function generateStaticParams() {
   const articlesByLocale = await Promise.all(
@@ -50,7 +55,7 @@ export async function generateMetadata({
       type: "article",
       images: [article.image ?? DEFAULT_SOCIAL_IMAGE],
       alternateLocales,
-      publishedAt: article.publishedAt,
+      publishedAt: publishedOn(article),
       updatedAt: article.updatedAt,
     }),
     robots: { index: !article.draft, follow: true },
@@ -58,21 +63,19 @@ export async function generateMetadata({
 }
 export default async function Article({
   params,
-  searchParams,
 }: {
   params: Promise<{ locale: string; slug: string }>;
-  searchParams: Promise<{ from?: string | string[] }>;
 }) {
   const { locale, slug } = await params;
   if (!isLocale(locale)) notFound();
   const article = await getArticle(locale, slug);
   if (!article || article.draft) notFound();
   const t = copy[locale];
-  const fromHome = (await searchParams).from === "home";
-  const backHref = fromHome ? `/${locale}#blog` : `/${locale}/blog`;
-  const backLabel = fromHome ? t.backHome : t.backWriting;
   const jsonLd = toBlogPosting(article);
-  const linkCards = await getLinkCards(article.content);
+  const [linkCards, imageSizes] = await Promise.all([
+    getLinkCards(article.content),
+    getImageSizes(article.content),
+  ]);
   return (
     <article className="reading-page">
       <script
@@ -80,9 +83,7 @@ export default async function Article({
         // biome-ignore lint/security/noDangerouslySetInnerHtml: The JSON-LD serializer escapes script-breaking characters.
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
       />
-      <Link className="text-link" href={backHref}>
-        ← {backLabel}
-      </Link>
+      <BackLink className="text-link" locale={locale} />
       <p className="article-dates">
         <span>
           {t.createdAt}:{" "}
@@ -100,10 +101,12 @@ export default async function Article({
       <p className="article-author">
         {t.author}: <Link href={`/${locale}#about`}>{AUTHOR_NAME}</Link>
       </p>
-      <MarkdownArticle content={article.content} linkCards={linkCards} />
-      <Link className="text-link mt-16" href={backHref}>
-        ← {backLabel}
-      </Link>
+      <MarkdownArticle
+        content={article.content}
+        linkCards={linkCards}
+        imageSizes={imageSizes}
+      />
+      <BackLink className="text-link mt-16" locale={locale} />
     </article>
   );
 }

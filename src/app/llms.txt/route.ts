@@ -3,6 +3,8 @@ import { SITE_NAME, siteUrl } from "@/constants/site";
 import { getArticles } from "@/features/blog/content";
 import { type Locale, locales } from "@/lib/locale";
 
+export const dynamic = "force-static";
+
 const escapeMarkdownText = (value: string): string =>
   value.replaceAll(/\s+/g, " ").replaceAll(/([\\[\]*_<>#])/g, "\\$1");
 

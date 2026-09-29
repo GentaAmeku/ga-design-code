@@ -163,7 +163,7 @@ input[type="range"] {
   text-align: center;
   margin-bottom: 64px;
 }
-.section-heading h2 {
+.section-heading :is(h1, h2) {
   font-size: 36px;
   font-weight: 700;
   line-height: 1.2;
@@ -675,7 +675,7 @@ input[type="range"] {
   .section-heading {
     margin-bottom: 36px;
   }
-  .section-heading h2 {
+  .section-heading :is(h1, h2) {
     font-size: 30px;
   }
   .section-heading p {

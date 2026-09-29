@@ -96,7 +96,8 @@ const fetchLinkCard = async (url: string): Promise<LinkCard | null> => {
         accept: "text/html",
       },
       signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
-      next: { revalidate: 60 * 60 * 24 },
+      // ビルドのときだけ取る。再検証を付けると記事が実行時に作り直され、画像の寸法を読めなくなる
+      cache: "force-cache",
     });
     if (!response.ok) return null;
     return parseLinkCard(url, await response.text());

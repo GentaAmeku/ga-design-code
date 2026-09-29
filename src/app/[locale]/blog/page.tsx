@@ -33,7 +33,12 @@ export default async function Blog({
       <Link className="text-link" href={`/${locale}#blog`}>
         ← {t.backHome}
       </Link>
-      <SectionHeading title="Blog" lead={t.writingLead} marker={false} />
+      <SectionHeading
+        as="h1"
+        title="Blog"
+        lead={t.writingLead}
+        marker={false}
+      />
       <FeaturedArticles all locale={locale} />
     </Section>
   );

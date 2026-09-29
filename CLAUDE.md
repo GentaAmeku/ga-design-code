@@ -21,9 +21,9 @@ pnpm format       # Biome による自動フォーマット (biome format --writ
 
 ### ディレクトリ構成 (`src/`)
 
-- `app/[locale]/` — ja/enのトップ、経歴詳細、記事一覧・本文。`proxy.ts`で初期言語とリクエストの言語を処理する。
+- `app/[locale]/` — ja/enのトップ、経歴詳細、記事一覧・本文、RSS。ルートレイアウトはここにあり、全ページを言語ごとに静的生成する(リクエストを読むAPIを使わない)。`/`→`/ja`は`next.config.ts`の308。言語の付かないURLの404は`app/global-not-found.tsx`。
 - `features/content/` — 仮コンテンツと日英の文言。本文・音源・公開メールアドレスは今後本人と確定する。
-- `features/music/` — ルートに保持する共通音声状態、セクションのプレイヤー、固定ヘッダーの再生表示。
+- `features/music/` — 共通音声状態(音声要素と選曲はモジュールに置き、言語を切り替えても再生を続ける)、セクションのプレイヤー、固定ヘッダーの再生表示。
 - `features/` — landing / about / career / skills / writing / music / contact。
 - `components/` — 共通UI。Sectionはトップ専用、読むページはreading-pageを使う。
 - `stores/ThemeProvider.tsx` — 白を保つ4色のテーマ。ダークテーマは追加しない。
