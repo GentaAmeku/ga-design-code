@@ -6,7 +6,7 @@ assert.ok(
   "Use a local production server",
 );
 const home = await fetch(origin, { redirect: "manual" });
-assert.equal(home.status, 307);
+assert.equal(home.status, 308);
 assert.equal(new URL(home.headers.get("location"), origin).pathname, "/ja");
 
 const seoFiles = await Promise.all(

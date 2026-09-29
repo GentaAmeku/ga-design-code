@@ -1,18 +1,48 @@
 "use client";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { copy } from "@/features/content/copy";
 import { HeaderPlayer } from "@/features/music/Player";
 import { localizePath } from "@/lib/locale";
 import { useLocale } from "@/lib/useLocale";
 import CustomizeMenu from "./components/CustomizeMenu";
 import GithubLink from "./components/GithubLink";
-export default function Header() {
+
+function LanguageLinks({ sourceQuery = "" }: { sourceQuery?: string }) {
   const locale = useLocale();
   const pathname = usePathname();
+  return (
+    <nav aria-label="Language" className="language-toggle">
+      <Link
+        href={localizePath(pathname, "ja") + sourceQuery}
+        scroll={false}
+        hrefLang="ja"
+        lang="ja"
+        aria-current={locale === "ja" ? "page" : undefined}
+      >
+        JA
+      </Link>
+      <span aria-hidden="true">/</span>
+      <Link
+        href={localizePath(pathname, "en") + sourceQuery}
+        scroll={false}
+        hrefLang="en"
+        lang="en"
+        aria-current={locale === "en" ? "page" : undefined}
+      >
+        EN
+      </Link>
+    </nav>
+  );
+}
+// 静的な HTML ではクエリが読めないので、表示後に ?from=home を引き継ぐ
+function LanguageToggleWithSource() {
   const fromHome = useSearchParams().get("from") === "home";
-  const sourceQuery = fromHome ? "?from=home" : "";
+  return <LanguageLinks sourceQuery={fromHome ? "?from=home" : ""} />;
+}
+export default function Header() {
+  const locale = useLocale();
   useEffect(() => {
     document.documentElement.lang = locale;
   }, [locale]);
@@ -24,27 +54,9 @@ export default function Header() {
       <header className="site-header">
         <div className="header-inner">
           <HeaderPlayer />
-          <nav aria-label="Language" className="language-toggle">
-            <Link
-              href={localizePath(pathname, "ja") + sourceQuery}
-              scroll={false}
-              hrefLang="ja"
-              lang="ja"
-              aria-current={locale === "ja" ? "page" : undefined}
-            >
-              JA
-            </Link>
-            <span aria-hidden="true">/</span>
-            <Link
-              href={localizePath(pathname, "en") + sourceQuery}
-              scroll={false}
-              hrefLang="en"
-              lang="en"
-              aria-current={locale === "en" ? "page" : undefined}
-            >
-              EN
-            </Link>
-          </nav>
+          <Suspense fallback={<LanguageLinks />}>
+            <LanguageToggleWithSource />
+          </Suspense>
           <CustomizeMenu />
           <GithubLink />
         </div>

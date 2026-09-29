@@ -31,16 +31,42 @@ export const useAudio = () => {
   if (!state) throw new Error("AudioProvider is required");
   return state;
 };
+// 言語を切り替えると [locale] のルートレイアウトごと作り直される。
+// 再生を止めないよう、音声要素と選曲はモジュールに置いて次の Provider へ引き継ぐ
+type SharedAudio = {
+  element: HTMLAudioElement;
+  trackIndex: number;
+  selected: boolean;
+};
+let shared: SharedAudio | null = null;
+const sharedAudio = (): SharedAudio => {
+  if (!shared) {
+    const element = new Audio();
+    element.preload = "metadata";
+    element.volume = 0.3;
+    shared = { element, trackIndex: 0, selected: false };
+  }
+  return shared;
+};
+const finiteOr = (value: number | undefined, fallback: number) =>
+  value !== undefined && Number.isFinite(value) ? value : fallback;
 export default function AudioProvider({ children }: { children: ReactNode }) {
   const audio = useRef<HTMLAudioElement>(null);
-  const [playing, setPlaying] = useState(false);
-  const [selected, setSelected] = useState(false);
-  const [current, setCurrent] = useState(0);
-  const [duration, setDuration] = useState(0);
+  // 初回の読み込み(hydration)では shared が無いので、サーバーの描画と同じ初期値になる
+  const [playing, setPlaying] = useState(() =>
+    shared ? !shared.element.paused : false,
+  );
+  const [selected, setSelected] = useState(() => shared?.selected ?? false);
+  const [current, setCurrent] = useState(() =>
+    finiteOr(shared?.element.currentTime, 0),
+  );
+  const [duration, setDuration] = useState(() =>
+    finiteOr(shared?.element.duration, 0),
+  );
   const [error, setError] = useState(false);
-  const [volume, updateVolume] = useState(0.3);
-  const [muted, setMuted] = useState(false);
-  const [trackIndex, setTrackIndex] = useState(0);
+  const [volume, updateVolume] = useState(() => shared?.element.volume ?? 0.3);
+  const [muted, setMuted] = useState(() => shared?.element.muted ?? false);
+  const [trackIndex, setTrackIndex] = useState(() => shared?.trackIndex ?? 0);
   const autoplayOnChange = useRef(false);
   const track = tracks[trackIndex] ?? tracks[0];
   const setVolume = (value: number) => {
@@ -57,18 +83,44 @@ export default function AudioProvider({ children }: { children: ReactNode }) {
     if (audio.current) audio.current.muted = !muted;
     setMuted(!muted);
   };
-  // Metadata can arrive before React attaches media handlers during hydration.
   useEffect(() => {
-    const element = audio.current;
-    if (element) element.volume = 0.3;
-    if (element && Number.isFinite(element.duration))
-      setDuration(element.duration);
+    const element = sharedAudio().element;
+    audio.current = element;
+    const listeners: [keyof HTMLMediaElementEventMap, () => void][] = [
+      ["play", () => setPlaying(true)],
+      ["pause", () => setPlaying(false)],
+      ["ended", () => setPlaying(false)],
+      ["timeupdate", () => setCurrent(element.currentTime)],
+      ["loadedmetadata", () => setDuration(element.duration)],
+      ["durationchange", () => setDuration(element.duration)],
+      [
+        "error",
+        () => {
+          setError(true);
+          setPlaying(false);
+        },
+      ],
+    ];
+    for (const [type, listener] of listeners)
+      element.addEventListener(type, listener);
+    // Metadata can arrive before the listeners are attached.
+    if (Number.isFinite(element.duration)) setDuration(element.duration);
+    return () => {
+      for (const [type, listener] of listeners)
+        element.removeEventListener(type, listener);
+    };
   }, []);
+  useEffect(() => {
+    const state = sharedAudio();
+    state.trackIndex = trackIndex;
+    state.selected = selected;
+  }, [trackIndex, selected]);
   // When the track changes via the list, start playback of the new source.
-  // biome-ignore lint/correctness/useExhaustiveDependencies: playback must restart when the track source changes
   useEffect(() => {
     const element = audio.current;
-    if (!element || !autoplayOnChange.current) return;
+    if (!element) return;
+    if (element.getAttribute("src") !== track.src) element.src = track.src;
+    if (!autoplayOnChange.current) return;
     autoplayOnChange.current = false;
     setCurrent(0);
     setError(false);
@@ -130,23 +182,6 @@ export default function AudioProvider({ children }: { children: ReactNode }) {
       }}
     >
       {children}
-      {/* Original instrumental tracks: no speech or lyric captions are needed. */}
-      {/* biome-ignore lint/a11y/useMediaCaption: instrumental audio has no speech */}
-      <audio
-        ref={audio}
-        src={track.src}
-        preload="metadata"
-        onPlay={() => setPlaying(true)}
-        onPause={() => setPlaying(false)}
-        onEnded={() => setPlaying(false)}
-        onTimeUpdate={(event) => setCurrent(event.currentTarget.currentTime)}
-        onLoadedMetadata={(event) => setDuration(event.currentTarget.duration)}
-        onDurationChange={(event) => setDuration(event.currentTarget.duration)}
-        onError={() => {
-          setError(true);
-          setPlaying(false);
-        }}
-      />
     </AudioContext.Provider>
   );
 }
