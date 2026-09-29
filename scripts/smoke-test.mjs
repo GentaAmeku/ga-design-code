@@ -10,7 +10,13 @@ assert.equal(home.status, 308);
 assert.equal(new URL(home.headers.get("location"), origin).pathname, "/ja");
 
 const seoFiles = await Promise.all(
-  ["/robots.txt", "/sitemap.xml", "/llms.txt"].map(async (path) => {
+  [
+    "/robots.txt",
+    "/sitemap.xml",
+    "/llms.txt",
+    "/ja/feed.xml",
+    "/en/feed.xml",
+  ].map(async (path) => {
     const response = await fetch(origin + path, { redirect: "manual" });
     assert.equal(response.status, 200, path);
     assert.equal(response.headers.get("location"), null, `${path} redirect`);
@@ -26,6 +32,28 @@ const seoContentTypes = Object.fromEntries(
 assert.match(seoContentTypes["/robots.txt"], /^text\/plain/);
 assert.match(seoContentTypes["/sitemap.xml"], /^application\/xml/);
 assert.match(seoContentTypes["/llms.txt"], /^text\/plain; charset=utf-8/);
+for (const locale of ["ja", "en"]) {
+  const feed = seoContent[`/${locale}/feed.xml`];
+  assert.match(
+    seoContentTypes[`/${locale}/feed.xml`],
+    /^application\/rss\+xml/,
+  );
+  assert.match(
+    feed,
+    /^<\?xml version="1\.0" encoding="UTF-8"\?>\n<rss version="2\.0"/,
+  );
+  assert.ok(
+    feed.includes(
+      `<link>https://www.genta-ameku.com/${locale}/blog/ai-driven-workflow</link>`,
+    ),
+    `${locale} feed item`,
+  );
+  assert.match(feed, /<pubDate>[A-Z][a-z]{2}, \d{2} [A-Z][a-z]{2} \d{4}/);
+}
+assert.match(
+  seoContent["/sitemap.xml"],
+  /hreflang="x-default" href="https:\/\/www\.genta-ameku\.com\/ja\/blog\/ai-driven-workflow"/,
+);
 assert.match(
   seoContent["/robots.txt"],
   /Sitemap: https:\/\/www\.genta-ameku\.com\/sitemap\.xml/,
@@ -44,8 +72,17 @@ for (const locale of ["ja", "en"]) {
   );
 }
 for (const draft of ["ai-deck-studio", "ai-animation-with-dreamina"]) {
-  assert.doesNotMatch(seoContent["/sitemap.xml"], new RegExp(draft));
-  assert.doesNotMatch(seoContent["/llms.txt"], new RegExp(draft));
+  for (const path of [
+    "/sitemap.xml",
+    "/llms.txt",
+    "/ja/feed.xml",
+    "/en/feed.xml",
+  ])
+    assert.doesNotMatch(
+      seoContent[path],
+      new RegExp(draft),
+      `${draft} in ${path}`,
+    );
 }
 assert.doesNotMatch(seoContent["/sitemap.xml"], /<loc>[^<]*\?/);
 for (const locale of ["ja", "en"]) {
@@ -54,6 +91,17 @@ for (const locale of ["ja", "en"]) {
     assert.equal(response.status, 200, `${locale}${path}`);
     const html = await response.text();
     assert.match(html, new RegExp(`<html[^>]+lang="${locale}"`));
+    // 題・説明・canonical・hreflang・RSS は、JS を実行しない取得でも読める <head> に置く
+    const head = html.slice(0, html.indexOf("</head>"));
+    for (const tag of [
+      /<title>/,
+      /<meta name="description"/,
+      /<link rel="canonical"/,
+      /<link rel="alternate" hrefLang="x-default"/,
+      /<link rel="alternate" type="application\/rss\+xml"/,
+      /<meta property="og:site_name" content="G\.A Design &amp; Code"\/>/,
+    ])
+      assert.match(head, tag, `${locale}${path} ${tag}`);
     assert.doesNotMatch(html, /<form(?:\s|>)/);
     assert.doesNotMatch(html, /Let me introduce my favorite games/);
     if (!path) {
@@ -79,8 +127,20 @@ for (const locale of ["ja", "en"]) {
         html,
         /AIが作る資料に|Why AI-generated decks need|日本のアニメらしい映像|Japanese-anime-style video/,
       );
+      assert.match(head, /<title>Genta Ameku — /);
+      const homeJsonLd = JSON.parse(
+        html.match(
+          /<script type="application\/ld\+json">([^<]+)<\/script>/,
+        )?.[1],
+      );
+      const types = homeJsonLd["@graph"].map((node) => node["@type"]);
+      assert.deepEqual(types, ["WebSite", "Person", "ProfilePage"]);
+      const person = homeJsonLd["@graph"][1];
+      assert.equal(person.name, "Genta Ameku");
+      assert.ok(person.sameAs.includes("https://github.com/GentaAmeku"));
     }
     if (path === "/blog") {
+      assert.match(html, /<h1>Blog<\/h1>/);
       assert.ok(html.includes("2026-09-18"));
       assert.doesNotMatch(
         html,
@@ -117,7 +177,13 @@ for (const locale of ["ja", "en"]) {
       assert.equal(jsonLd.author.name, "Genta Ameku");
       assert.equal(jsonLd.inLanguage, locale);
       assert.equal(jsonLd.dateModified, "2026-09-18");
-      assert.equal("datePublished" in jsonLd, false);
+      assert.equal(jsonLd.datePublished, "2026-09-18");
+      assert.ok(jsonLd.author.sameAs.includes("https://github.com/GentaAmeku"));
+      assert.equal(jsonLd.publisher.name, "Genta Ameku");
+      assert.match(
+        head,
+        /<meta property="article:published_time" content="2026-09-18"\/>/,
+      );
       assert.equal(
         jsonLd.url,
         `https://www.genta-ameku.com/${locale}/blog/ai-driven-workflow`,
@@ -160,5 +226,5 @@ for (const track of [
   assert.equal(artwork.status, 200, track);
 }
 console.log(
-  "PASS: SEO files, metadata, JSON-LD, locale redirects, 8 localized pages, 7 missing or draft routes, no forms, audio range delivery",
+  "PASS: SEO files, RSS feeds, metadata in <head>, JSON-LD, locale redirects, 8 localized pages, 7 missing or draft routes, no forms, audio range delivery",
 );

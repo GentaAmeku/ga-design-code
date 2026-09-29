@@ -4,6 +4,7 @@ description: "How I delegate meeting transcription, task management, and impleme
 order: 1
 draft: false
 createdAt: "2026-09-18"
+publishedAt: "2026-09-18"
 updatedAt: "2026-09-18"
 image: "/images/ai-driven-workflow.en.png"
 ---

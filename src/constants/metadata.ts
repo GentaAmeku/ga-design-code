@@ -22,6 +22,19 @@ export const pageDescriptions = {
   },
 } satisfies Record<Locale, Record<"home" | "career" | "blog", string>>;
 
+// トップの題。検索結果で誰の何のサイトか分かるよう、名前と役割を先に置く
+export const homeTitles = {
+  ja: `${AUTHOR_NAME} — 生成AI導入支援とAI駆動開発 | ${SITE_NAME}`,
+  en: `${AUTHOR_NAME} — AI Enablement Engineer | ${SITE_NAME}`,
+} satisfies Record<Locale, string>;
+
+export const feedTitle = (locale: Locale) =>
+  `${SITE_NAME} Blog (${locale === "ja" ? "日本語" : "English"})`;
+
+// 対になる言語が無いときの x-default。/ は /ja へ転送するので、日本語があれば日本語にする
+export const defaultLocaleOf = (available: readonly Locale[]): Locale =>
+  available.includes("ja") ? "ja" : available[0];
+
 interface PageMetadataOptions {
   locale: Locale;
   path?: string;
@@ -46,12 +59,15 @@ export function pageMetadata({
   updatedAt,
 }: PageMetadataOptions): Metadata {
   const localizedPath = `/${locale}${path}`;
-  const languages = Object.fromEntries(
-    alternateLocales.map((alternateLocale) => [
-      alternateLocale,
-      `/${alternateLocale}${path}`,
-    ]),
-  );
+  const languages = {
+    ...Object.fromEntries(
+      alternateLocales.map((alternateLocale) => [
+        alternateLocale,
+        `/${alternateLocale}${path}`,
+      ]),
+    ),
+    "x-default": `/${defaultLocaleOf(alternateLocales)}${path}`,
+  };
 
   return {
     title,
@@ -60,12 +76,18 @@ export function pageMetadata({
     alternates: {
       canonical: localizedPath,
       languages,
+      types: {
+        "application/rss+xml": [
+          { url: `/${locale}/feed.xml`, title: feedTitle(locale) },
+        ],
+      },
     },
     openGraph: {
       title,
       description,
       type,
       url: localizedPath,
+      siteName: SITE_NAME,
       images,
       locale: locale === "ja" ? "ja_JP" : "en_US",
       ...(type === "article" && publishedAt

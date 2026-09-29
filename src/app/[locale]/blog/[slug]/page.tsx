@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import BackLink from "@/components/BackLink";
 import { pageMetadata } from "@/constants/metadata";
 import { AUTHOR_NAME, DEFAULT_SOCIAL_IMAGE, SITE_NAME } from "@/constants/site";
-import { getArticle, getArticles } from "@/features/blog/content";
+import { getArticle, getArticles, publishedOn } from "@/features/blog/content";
 import { getImageSizes } from "@/features/blog/image-sizes";
 import { getLinkCards } from "@/features/blog/link-cards";
 import MarkdownArticle from "@/features/blog/MarkdownArticle";
@@ -55,7 +55,7 @@ export async function generateMetadata({
       type: "article",
       images: [article.image ?? DEFAULT_SOCIAL_IMAGE],
       alternateLocales,
-      publishedAt: article.publishedAt,
+      publishedAt: publishedOn(article),
       updatedAt: article.updatedAt,
     }),
     robots: { index: !article.draft, follow: true },
