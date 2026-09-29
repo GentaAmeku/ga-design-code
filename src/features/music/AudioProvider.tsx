@@ -32,7 +32,8 @@ export const useAudio = () => {
   return state;
 };
 // 言語を切り替えると [locale] のルートレイアウトごと作り直される。
-// 再生を止めないよう、音声要素と選曲はモジュールに置いて次の Provider へ引き継ぐ
+// 再生を止めないよう、音声要素と選曲はモジュールに置いて次の Provider へ引き継ぐ。
+// 音声は数 MB あるので、再生か位置の変更を頼まれるまで読み込まない(preload="none")
 type SharedAudio = {
   element: HTMLAudioElement;
   trackIndex: number;
@@ -42,7 +43,7 @@ let shared: SharedAudio | null = null;
 const sharedAudio = (): SharedAudio => {
   if (!shared) {
     const element = new Audio();
-    element.preload = "metadata";
+    element.preload = "none";
     element.volume = 0.3;
     shared = { element, trackIndex: 0, selected: false };
   }
@@ -61,7 +62,10 @@ export default function AudioProvider({ children }: { children: ReactNode }) {
     finiteOr(shared?.element.currentTime, 0),
   );
   const [duration, setDuration] = useState(() =>
-    finiteOr(shared?.element.duration, 0),
+    finiteOr(
+      shared?.element.duration,
+      (tracks[shared?.trackIndex ?? 0] ?? tracks[0]).duration,
+    ),
   );
   const [error, setError] = useState(false);
   const [volume, updateVolume] = useState(() => shared?.element.volume ?? 0.3);
@@ -86,13 +90,17 @@ export default function AudioProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const element = sharedAudio().element;
     audio.current = element;
+    // 曲を差し替えた直後は長さが NaN になるので、分かっている長さを残す
+    const syncDuration = () => {
+      if (Number.isFinite(element.duration)) setDuration(element.duration);
+    };
     const listeners: [keyof HTMLMediaElementEventMap, () => void][] = [
       ["play", () => setPlaying(true)],
       ["pause", () => setPlaying(false)],
       ["ended", () => setPlaying(false)],
       ["timeupdate", () => setCurrent(element.currentTime)],
-      ["loadedmetadata", () => setDuration(element.duration)],
-      ["durationchange", () => setDuration(element.duration)],
+      ["loadedmetadata", syncDuration],
+      ["durationchange", syncDuration],
       [
         "error",
         () => {
@@ -118,10 +126,9 @@ export default function AudioProvider({ children }: { children: ReactNode }) {
   // When the track changes via the list, start playback of the new source.
   useEffect(() => {
     const element = audio.current;
-    if (!element) return;
-    if (element.getAttribute("src") !== track.src) element.src = track.src;
-    if (!autoplayOnChange.current) return;
+    if (!element || !autoplayOnChange.current) return;
     autoplayOnChange.current = false;
+    element.src = track.src;
     setCurrent(0);
     setError(false);
     void element.play().catch(() => {
@@ -129,6 +136,10 @@ export default function AudioProvider({ children }: { children: ReactNode }) {
       setPlaying(false);
     });
   }, [track.src]);
+  // まだ読み込んでいなければ、今の曲を音声要素に渡す
+  const loadTrack = (element: HTMLAudioElement) => {
+    if (element.getAttribute("src") !== track.src) element.src = track.src;
+  };
   const toggle = () => {
     const element = audio.current;
     if (!element) return;
@@ -139,6 +150,7 @@ export default function AudioProvider({ children }: { children: ReactNode }) {
     setSelected(true);
     setError(false);
     if (element.error) element.load();
+    loadTrack(element);
     void element.play().catch(() => {
       setError(true);
       setPlaying(false);
@@ -153,14 +165,18 @@ export default function AudioProvider({ children }: { children: ReactNode }) {
     setTrackIndex(index);
     setSelected(true);
     setCurrent(0);
-    setDuration(0);
+    setDuration(tracks[index].duration);
     setError(false);
     autoplayOnChange.current = true;
   };
   const seek = (time: number) => {
-    if (!audio.current || !Number.isFinite(duration) || duration <= 0) return;
-    audio.current.currentTime = Math.min(duration, Math.max(0, time));
-    setCurrent(audio.current.currentTime);
+    const element = audio.current;
+    if (!element || !Number.isFinite(duration) || duration <= 0) return;
+    // 再生前に動かした位置は、読み込んだあとの再生開始位置になる
+    loadTrack(element);
+    const next = Math.min(duration, Math.max(0, time));
+    element.currentTime = next;
+    setCurrent(next);
   };
   return (
     <AudioContext.Provider
